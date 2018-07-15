@@ -1,0 +1,8 @@
+main:main.o extern.o
+	gcc -o $@ $^
+
+%.o:%.c
+	gcc -o $@ -c $<
+
+clean:
+	rm *.o main 
