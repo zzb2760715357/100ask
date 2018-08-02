@@ -7,5 +7,5 @@
 |   |   |---leds      流水灯
 |   |
 |   |---hello         简单makefile编写
-| 
-|
+|   |
+|   |---sdram         在sdram中运行程序
