@@ -57,7 +57,7 @@ HandleIRQ:
 	stmdb sp!,{r0-r12,lr} @ 保存寄存器的值
 
 	ldr lr,=int_return 
-	ldr pc,=Timer0_Handle
+	ldr pc,=EINT_Handle
 	
 int_return: 
 	ldmia sp!,{r0-r12,pc}^ @ 中断返回, ^表示将spsr的值复制到cpsr

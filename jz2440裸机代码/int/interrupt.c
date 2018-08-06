@@ -1,10 +1,39 @@
 #include "s3c24xx.h"
 
-void Timer0_Handle()
+void EINT_Handle()
 {
-	if (INTOFFSET == 10){
-		GPFDAT = ~(GPFDAT&(0x07<<4));
+	unsigned long oft = INTOFFSET;
+
+	switch(oft){
+	
+		case 0:
+		{
+			GPFDAT |= (0x07<<4);
+			GPFDAT &= ~(1<<4);
+			break;
+		}
+		
+		case 2:
+		{
+			GPFDAT |= (0x07<<4);
+			GPFDAT &= ~(1<<5);
+			break;
+		}
+
+		case 5:
+		{
+			GPFDAT |= (0x07<<4);
+			GPFDAT &= ~(1<<6);
+			break;
+		}	
+		default:
+			break;
 	}
-	SRCPND = 1 << INTOFFSET;
-	INTPND = 1 << INTOFFSET;
+
+	if ( oft == 5){
+		EINTPEND = 1<<11;
+	}
+	SRCPND = 1<<oft;
+	INTPND = 1<<oft;
+
 }
