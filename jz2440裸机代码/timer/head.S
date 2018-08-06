@@ -35,16 +35,21 @@ HandleFIQ:
 Reset:
 	ldr sp,=4096
 	bl disable_watch_dog
-	
+    bl clock_init
+	bl memsetup
+	bl copy_steppingstone_to_sdram
+	ldr pc,=on_sdram
+on_sdram:
 	msr cpsr_c,#0xd2 @ 进入中断模式，设置中断模式栈指针
-	ldr sp,=3072
-	
-	msr cpsr_c,#0xd3 @ 进入管理模式，设置管理模式栈指针
 	ldr sp,=4096
+	
+	msr cpsr_c,#0xdf @ 进入管理模式，设置管理模式栈指针
+	ldr sp,=0x34000000
 
 	bl init_led      @ 初始化LED的GPIO口
-        bl init_irq      @ 初始化INT
-	msr cpsr_c,#0x53
+	bl timer0_init
+    bl init_irq      @ 初始化INT
+	msr cpsr_c,#0x5f
 	
 	ldr lr,=halt_loop
 	ldr pc,=main

@@ -1,0 +1,314 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BUSY	nandflash/nand.c	5;"	d	language:C	file:
+CLKCON	timer/s3c24xx.h	62;"	d	language:C++
+CLKDIVN	timer/s3c24xx.h	64;"	d	language:C++
+CLKSLOW	timer/s3c24xx.h	63;"	d	language:C++
+EINTMASK	int/s3c24xx.h	55;"	d	language:C++
+EINTMASK	timer/s3c24xx.h	55;"	d	language:C++
+EINTPEND	int/s3c24xx.h	56;"	d	language:C++
+EINTPEND	timer/s3c24xx.h	56;"	d	language:C++
+EINT_Handle	int/interrupt.c	/^void EINT_Handle()$/;"	f	language:C
+EINT_Handle	timer/interrupt.c	/^void EINT_Handle()$/;"	f	language:C
+GPBCON	int/s3c24xx.h	16;"	d	language:C++
+GPBCON	timer/s3c24xx.h	16;"	d	language:C++
+GPBDAT	int/s3c24xx.h	17;"	d	language:C++
+GPBDAT	timer/s3c24xx.h	17;"	d	language:C++
+GPF0_IN	gpio/key_leds/key_leds.c	17;"	d	language:C	file:
+GPF0_MAKS	gpio/key_leds/key_leds.c	21;"	d	language:C	file:
+GPF0_eint	int/init.c	14;"	d	language:C	file:
+GPF0_eint	timer/init.c	14;"	d	language:C	file:
+GPF0_msk	int/init.c	18;"	d	language:C	file:
+GPF0_msk	timer/init.c	18;"	d	language:C	file:
+GPF2_IN	gpio/key_leds/key_leds.c	18;"	d	language:C	file:
+GPF2_MAKS	gpio/key_leds/key_leds.c	22;"	d	language:C	file:
+GPF2_eint	int/init.c	15;"	d	language:C	file:
+GPF2_eint	timer/init.c	15;"	d	language:C	file:
+GPF2_msk	int/init.c	19;"	d	language:C	file:
+GPF2_msk	timer/init.c	19;"	d	language:C	file:
+GPF4_MASK	gpio/key_leds/key_leds.c	12;"	d	language:C	file:
+GPF4_OUT	gpio/key_leds/key_leds.c	8;"	d	language:C	file:
+GPF4_OUT	gpio/leds/leds.c	4;"	d	language:C	file:
+GPF4_msk	int/init.c	7;"	d	language:C	file:
+GPF4_msk	timer/init.c	7;"	d	language:C	file:
+GPF4_out	int/init.c	3;"	d	language:C	file:
+GPF4_out	mmu/leds.c	9;"	d	language:C	file:
+GPF4_out	nandflash/main.c	4;"	d	language:C	file:
+GPF4_out	sdram/leds.c	4;"	d	language:C	file:
+GPF4_out	timer/init.c	3;"	d	language:C	file:
+GPF5_MASK	gpio/key_leds/key_leds.c	13;"	d	language:C	file:
+GPF5_OUT	gpio/key_leds/key_leds.c	9;"	d	language:C	file:
+GPF5_OUT	gpio/leds/leds.c	5;"	d	language:C	file:
+GPF5_msk	int/init.c	8;"	d	language:C	file:
+GPF5_msk	timer/init.c	8;"	d	language:C	file:
+GPF5_out	int/init.c	4;"	d	language:C	file:
+GPF5_out	mmu/leds.c	10;"	d	language:C	file:
+GPF5_out	nandflash/main.c	5;"	d	language:C	file:
+GPF5_out	sdram/leds.c	5;"	d	language:C	file:
+GPF5_out	timer/init.c	4;"	d	language:C	file:
+GPF6_MASK	gpio/key_leds/key_leds.c	14;"	d	language:C	file:
+GPF6_OUT	gpio/key_leds/key_leds.c	10;"	d	language:C	file:
+GPF6_OUT	gpio/leds/leds.c	6;"	d	language:C	file:
+GPF6_msk	int/init.c	9;"	d	language:C	file:
+GPF6_msk	timer/init.c	9;"	d	language:C	file:
+GPF6_out	int/init.c	5;"	d	language:C	file:
+GPF6_out	mmu/leds.c	11;"	d	language:C	file:
+GPF6_out	nandflash/main.c	6;"	d	language:C	file:
+GPF6_out	sdram/leds.c	6;"	d	language:C	file:
+GPF6_out	timer/init.c	5;"	d	language:C	file:
+GPFCON	gpio/key_leds/key_leds.c	1;"	d	language:C	file:
+GPFCON	gpio/led_on_c/led_on_c.c	1;"	d	language:C	file:
+GPFCON	gpio/leds/leds.c	1;"	d	language:C	file:
+GPFCON	int/s3c24xx.h	19;"	d	language:C++
+GPFCON	mmu/leds.c	6;"	d	language:C	file:
+GPFCON	nandflash/main.c	1;"	d	language:C	file:
+GPFCON	sdram/leds.c	1;"	d	language:C	file:
+GPFCON	timer/s3c24xx.h	19;"	d	language:C++
+GPFDAT	gpio/key_leds/key_leds.c	2;"	d	language:C	file:
+GPFDAT	gpio/led_on_c/led_on_c.c	2;"	d	language:C	file:
+GPFDAT	gpio/leds/leds.c	2;"	d	language:C	file:
+GPFDAT	int/s3c24xx.h	20;"	d	language:C++
+GPFDAT	mmu/leds.c	7;"	d	language:C	file:
+GPFDAT	nandflash/main.c	2;"	d	language:C	file:
+GPFDAT	sdram/leds.c	2;"	d	language:C	file:
+GPFDAT	timer/s3c24xx.h	20;"	d	language:C++
+GPFUP	int/s3c24xx.h	21;"	d	language:C++
+GPFUP	timer/s3c24xx.h	21;"	d	language:C++
+GPG3_IN	gpio/key_leds/key_leds.c	19;"	d	language:C	file:
+GPG3_MAKS	gpio/key_leds/key_leds.c	23;"	d	language:C	file:
+GPG3_eint	int/init.c	16;"	d	language:C	file:
+GPG3_eint	timer/init.c	16;"	d	language:C	file:
+GPG3_msk	int/init.c	20;"	d	language:C	file:
+GPG3_msk	timer/init.c	20;"	d	language:C	file:
+GPGCON	gpio/key_leds/key_leds.c	4;"	d	language:C	file:
+GPGCON	int/s3c24xx.h	23;"	d	language:C++
+GPGCON	timer/s3c24xx.h	23;"	d	language:C++
+GPGDAT	gpio/key_leds/key_leds.c	5;"	d	language:C	file:
+GPGDAT	int/s3c24xx.h	24;"	d	language:C++
+GPGDAT	timer/s3c24xx.h	24;"	d	language:C++
+GPGUP	int/s3c24xx.h	25;"	d	language:C++
+GPGUP	timer/s3c24xx.h	25;"	d	language:C++
+GPHCON	int/s3c24xx.h	27;"	d	language:C++
+GPHCON	timer/s3c24xx.h	27;"	d	language:C++
+GPHDAT	int/s3c24xx.h	28;"	d	language:C++
+GPHDAT	timer/s3c24xx.h	28;"	d	language:C++
+GPHUP	int/s3c24xx.h	29;"	d	language:C++
+GPHUP	timer/s3c24xx.h	29;"	d	language:C++
+GSTATUS1	nandflash/nand.c	4;"	d	language:C	file:
+GSTATUS1	timer/s3c24xx.h	75;"	d	language:C++
+HandleDataAbort	int/head.S	/^HandleDataAbort:$/;"	l	language:Asm
+HandleDataAbort	timer/head.S	/^HandleDataAbort:$/;"	l	language:Asm
+HandleFIQ	int/head.S	/^HandleFIQ:$/;"	l	language:Asm
+HandleFIQ	timer/head.S	/^HandleFIQ:$/;"	l	language:Asm
+HandleIRQ	int/head.S	/^HandleIRQ:$/;"	l	language:Asm
+HandleIRQ	timer/head.S	/^HandleIRQ:$/;"	l	language:Asm
+HandleNotUsed	int/head.S	/^HandleNotUsed:$/;"	l	language:Asm
+HandleNotUsed	timer/head.S	/^HandleNotUsed:$/;"	l	language:Asm
+HandleSWI	int/head.S	/^HandleSWI:$/;"	l	language:Asm
+HandleSWI	timer/head.S	/^HandleSWI:$/;"	l	language:Asm
+HandleUnder	int/head.S	/^HandleUnder:$/;"	l	language:Asm
+HandleUnder	timer/head.S	/^HandleUnder:$/;"	l	language:Asm
+HanledPrefetchAbort	int/head.S	/^HanledPrefetchAbort:	$/;"	l	language:Asm
+HanledPrefetchAbort	timer/head.S	/^HanledPrefetchAbort:	$/;"	l	language:Asm
+INTMOD	int/s3c24xx.h	46;"	d	language:C++
+INTMOD	timer/s3c24xx.h	46;"	d	language:C++
+INTMSK	int/s3c24xx.h	47;"	d	language:C++
+INTMSK	timer/s3c24xx.h	47;"	d	language:C++
+INTOFFSET	int/s3c24xx.h	50;"	d	language:C++
+INTOFFSET	timer/s3c24xx.h	50;"	d	language:C++
+INTPND	int/s3c24xx.h	49;"	d	language:C++
+INTPND	timer/s3c24xx.h	49;"	d	language:C++
+INTSUBMSK	int/s3c24xx.h	52;"	d	language:C++
+INTSUBMSK	timer/s3c24xx.h	52;"	d	language:C++
+LARGER_NAND_PAGE	nandflash/nand.c	2;"	d	language:C	file:
+LOCKTIME	timer/s3c24xx.h	59;"	d	language:C++
+MAIN_LOOP	gpio/led_on/led_on.S	/^MAIN_LOOP:$/;"	l	language:Asm
+MEM_CTL_BASE	int/s3c24xx.h	5;"	d	language:C++
+MEM_CTL_BASE	mmu/init.c	9;"	d	language:C	file:
+MEM_CTL_BASE	nandflash/init.c	3;"	d	language:C	file:
+MEM_CTL_BASE	timer/s3c24xx.h	5;"	d	language:C++
+MMU_BUFFERABLE	mmu/init.c	75;"	d	language:C	file:
+MMU_CACHEABLE	mmu/init.c	74;"	d	language:C	file:
+MMU_DOMAIN	mmu/init.c	72;"	d	language:C	file:
+MMU_FULL_ACCESS	mmu/init.c	71;"	d	language:C	file:
+MMU_SECDESC	mmu/init.c	77;"	d	language:C	file:
+MMU_SECDESC_WB	mmu/init.c	79;"	d	language:C	file:
+MMU_SECTION	mmu/init.c	76;"	d	language:C	file:
+MMU_SECTION_SIZE	mmu/init.c	81;"	d	language:C	file:
+MMU_SPECIAL	mmu/init.c	73;"	d	language:C	file:
+MPLLCON	timer/s3c24xx.h	60;"	d	language:C++
+NAND_BLOCK_MASK	nandflash/nand.c	8;"	d	language:C	file:
+NAND_BLOCK_MASK_LP	nandflash/nand.c	11;"	d	language:C	file:
+NAND_SECTOR_SIZE	nandflash/nand.c	7;"	d	language:C	file:
+NAND_SECTOR_SIZE_LP	nandflash/nand.c	10;"	d	language:C	file:
+NFADDR	int/s3c24xx.h	11;"	d	language:C++
+NFADDR	nandflash/nand.c	/^    S3C24X0_REG32   NFADDR;$/;"	m	language:C	struct:__anon1	file:
+NFADDR	nandflash/nand.c	/^    S3C24X0_REG32   NFADDR;$/;"	m	language:C	struct:__anon2	file:
+NFADDR	timer/s3c24xx.h	11;"	d	language:C++
+NFCMD	int/s3c24xx.h	10;"	d	language:C++
+NFCMD	nandflash/nand.c	/^    S3C24X0_REG32   NFCMD;$/;"	m	language:C	struct:__anon1	file:
+NFCMD	nandflash/nand.c	/^    S3C24X0_REG32   NFCMD;$/;"	m	language:C	struct:__anon2	file:
+NFCMD	timer/s3c24xx.h	10;"	d	language:C++
+NFCONF	int/s3c24xx.h	9;"	d	language:C++
+NFCONF	nandflash/nand.c	/^    S3C24X0_REG32   NFCONF;$/;"	m	language:C	struct:__anon1	file:
+NFCONF	nandflash/nand.c	/^    S3C24X0_REG32   NFCONF;$/;"	m	language:C	struct:__anon2	file:
+NFCONF	timer/s3c24xx.h	9;"	d	language:C++
+NFCONT	nandflash/nand.c	/^    S3C24X0_REG32   NFCONT;$/;"	m	language:C	struct:__anon2	file:
+NFDATA	int/s3c24xx.h	12;"	d	language:C++
+NFDATA	nandflash/nand.c	/^    S3C24X0_REG32   NFDATA;$/;"	m	language:C	struct:__anon1	file:
+NFDATA	nandflash/nand.c	/^    S3C24X0_REG32   NFDATA;$/;"	m	language:C	struct:__anon2	file:
+NFDATA	timer/s3c24xx.h	12;"	d	language:C++
+NFEBLK	nandflash/nand.c	/^    S3C24X0_REG32   NFEBLK;$/;"	m	language:C	struct:__anon2	file:
+NFECC	nandflash/nand.c	/^    S3C24X0_REG32   NFECC;$/;"	m	language:C	struct:__anon1	file:
+NFESTAT0	nandflash/nand.c	/^    S3C24X0_REG32   NFESTAT0;$/;"	m	language:C	struct:__anon2	file:
+NFESTAT1	nandflash/nand.c	/^    S3C24X0_REG32   NFESTAT1;$/;"	m	language:C	struct:__anon2	file:
+NFMECC0	nandflash/nand.c	/^    S3C24X0_REG32   NFMECC0;$/;"	m	language:C	struct:__anon2	file:
+NFMECC1	nandflash/nand.c	/^    S3C24X0_REG32   NFMECC1;$/;"	m	language:C	struct:__anon2	file:
+NFMECCD0	nandflash/nand.c	/^    S3C24X0_REG32   NFMECCD0;$/;"	m	language:C	struct:__anon2	file:
+NFMECCD1	nandflash/nand.c	/^    S3C24X0_REG32   NFMECCD1;$/;"	m	language:C	struct:__anon2	file:
+NFSBLK	nandflash/nand.c	/^    S3C24X0_REG32   NFSBLK;$/;"	m	language:C	struct:__anon2	file:
+NFSECC	nandflash/nand.c	/^    S3C24X0_REG32   NFSECC;$/;"	m	language:C	struct:__anon2	file:
+NFSECCD	nandflash/nand.c	/^    S3C24X0_REG32   NFSECCD;$/;"	m	language:C	struct:__anon2	file:
+NFSTAT	int/s3c24xx.h	13;"	d	language:C++
+NFSTAT	nandflash/nand.c	/^    S3C24X0_REG32   NFSTAT;$/;"	m	language:C	struct:__anon1	file:
+NFSTAT	nandflash/nand.c	/^    S3C24X0_REG32   NFSTAT;$/;"	m	language:C	struct:__anon2	file:
+NFSTAT	timer/s3c24xx.h	13;"	d	language:C++
+PRIORITY	int/s3c24xx.h	48;"	d	language:C++
+PRIORITY	timer/s3c24xx.h	48;"	d	language:C++
+Reset	int/head.S	/^Reset:$/;"	l	language:Asm
+Reset	timer/head.S	/^Reset:$/;"	l	language:Asm
+S3C2410_NAND	nandflash/nand.c	/^} S3C2410_NAND;$/;"	t	language:C	typeref:struct:__anon1	file:
+S3C2440_NAND	nandflash/nand.c	/^} S3C2440_NAND;$/;"	t	language:C	typeref:struct:__anon2	file:
+S3C24X0_REG32	nandflash/nand.c	/^typedef unsigned int S3C24X0_REG32;$/;"	t	language:C	file:
+SDRAM_BASE	int/s3c24xx.h	6;"	d	language:C++
+SDRAM_BASE	timer/s3c24xx.h	6;"	d	language:C++
+SRCPND	int/s3c24xx.h	45;"	d	language:C++
+SRCPND	timer/s3c24xx.h	45;"	d	language:C++
+SUBSRCPND	int/s3c24xx.h	51;"	d	language:C++
+SUBSRCPND	timer/s3c24xx.h	51;"	d	language:C++
+TACLS	nandflash/nand.c	286;"	d	language:C	file:
+TCFG0	timer/s3c24xx.h	68;"	d	language:C++
+TCFG1	timer/s3c24xx.h	69;"	d	language:C++
+TCMPB0	timer/s3c24xx.h	72;"	d	language:C++
+TCNTB0	timer/s3c24xx.h	71;"	d	language:C++
+TCNTO0	timer/s3c24xx.h	73;"	d	language:C++
+TCON	timer/s3c24xx.h	70;"	d	language:C++
+TWRPH0	nandflash/nand.c	287;"	d	language:C	file:
+TWRPH1	nandflash/nand.c	288;"	d	language:C	file:
+UBRDIV0	int/s3c24xx.h	41;"	d	language:C++
+UBRDIV0	timer/s3c24xx.h	41;"	d	language:C++
+UCON0	int/s3c24xx.h	35;"	d	language:C++
+UCON0	timer/s3c24xx.h	35;"	d	language:C++
+UFCON0	int/s3c24xx.h	36;"	d	language:C++
+UFCON0	timer/s3c24xx.h	36;"	d	language:C++
+ULCON0	int/s3c24xx.h	34;"	d	language:C++
+ULCON0	timer/s3c24xx.h	34;"	d	language:C++
+UMCON0	int/s3c24xx.h	37;"	d	language:C++
+UMCON0	timer/s3c24xx.h	37;"	d	language:C++
+UPLLCON	timer/s3c24xx.h	61;"	d	language:C++
+URXH0	int/s3c24xx.h	40;"	d	language:C++
+URXH0	timer/s3c24xx.h	40;"	d	language:C++
+UTRSTAT0	int/s3c24xx.h	38;"	d	language:C++
+UTRSTAT0	timer/s3c24xx.h	38;"	d	language:C++
+UTXH0	int/s3c24xx.h	39;"	d	language:C++
+UTXH0	timer/s3c24xx.h	39;"	d	language:C++
+WTCON	int/s3c24xx.h	2;"	d	language:C++
+WTCON	mmu/init.c	7;"	d	language:C	file:
+WTCON	nandflash/init.c	1;"	d	language:C	file:
+WTCON	timer/s3c24xx.h	2;"	d	language:C++
+_start	gpio/key_leds/crt0.S	/^_start:$/;"	l	language:Asm
+_start	gpio/led_on/led_on.S	/^_start:$/;"	l	language:Asm
+_start	gpio/led_on_c/crt0.S	/^_start:$/;"	l	language:Asm
+_start	gpio/leds/crt0.S	/^_start:$/;"	l	language:Asm
+_start	int/head.S	/^_start:$/;"	l	language:Asm
+_start	mmu/head.S	/^_start:$/;"	l	language:Asm
+_start	nandflash/head.S	/^_start:$/;"	l	language:Asm
+_start	sdram/head.S	/^_start:$/;"	l	language:Asm
+_start	timer/head.S	/^_start:$/;"	l	language:Asm
+b	int/head.S	/^b Reset$/;"	l	language:Asm
+b	timer/head.S	/^b Reset$/;"	l	language:Asm
+copy_2th_to_sdram	mmu/init.c	/^void copy_2th_to_sdram(void)$/;"	f	language:C	signature:(void)
+copy_steppingstone_to_sdram	sdram/head.S	/^copy_steppingstone_to_sdram:$/;"	l	language:Asm
+create_page_table	mmu/init.c	/^void create_page_table(void)$/;"	f	language:C	signature:(void)
+delay	gpio/leds/leds.c	/^void delay(volatile unsigned long delay)$/;"	f	language:C	signature:(volatile unsigned long delay)
+disable_watch_dog	int/init.c	/^void disable_watch_dog()$/;"	f	language:C
+disable_watch_dog	mmu/init.c	/^void disable_watch_dog(void)$/;"	f	language:C	signature:(void)
+disable_watch_dog	nandflash/init.c	/^void disable_watch_dog()$/;"	f	language:C
+disable_watch_dog	sdram/head.S	/^disable_watch_dog:$/;"	l	language:Asm
+disable_watch_dog	timer/init.c	/^void disable_watch_dog()$/;"	f	language:C
+halt_loop	gpio/key_leds/crt0.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	gpio/led_on_c/crt0.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	gpio/leds/crt0.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	int/head.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	mmu/head.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	nandflash/head.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	sdram/head.S	/^halt_loop:$/;"	l	language:Asm
+halt_loop	timer/head.S	/^halt_loop:$/;"	l	language:Asm
+hi_fun	hello/extern.c	/^void hi_fun()$/;"	f	language:C
+init_irq	int/init.c	/^void init_irq()$/;"	f	language:C
+init_irq	timer/init.c	/^void init_irq()$/;"	f	language:C
+init_led	int/init.c	/^void init_led()$/;"	f	language:C
+init_led	timer/init.c	/^void init_led()$/;"	f	language:C
+int_return	int/head.S	/^int_return: $/;"	l	language:Asm
+int_return	timer/head.S	/^int_return: $/;"	l	language:Asm
+main	gpio/key_leds/key_leds.c	/^int main()$/;"	f	language:C
+main	gpio/led_on_c/led_on_c.c	/^int main()$/;"	f	language:C
+main	gpio/leds/leds.c	/^int main()$/;"	f	language:C
+main	hello/main.c	/^int main()$/;"	f	language:C
+main	int/main.c	/^int main()$/;"	f	language:C
+main	mmu/leds.c	/^int main(void)$/;"	f	language:C	signature:(void)
+main	nandflash/main.c	/^int main(void)$/;"	f	language:C	signature:(void)
+main	sdram/leds.c	/^int main(void)$/;"	f	language:C	signature:(void)
+main	timer/main.c	/^int main()$/;"	f	language:C
+mem_cfg_val	sdram/head.S	/^mem_cfg_val:$/;"	l	language:Asm
+memsetup	mmu/init.c	/^void memsetup(void)$/;"	f	language:C	signature:(void)
+memsetup	nandflash/init.c	/^void memsetup()$/;"	f	language:C
+memsetup	sdram/head.S	/^memsetup:$/;"	l	language:Asm
+mmu_init	mmu/init.c	/^void mmu_init(void)$/;"	f	language:C	signature:(void)
+nand_chip	nandflash/nand.c	/^static t_nand_chip nand_chip;$/;"	v	language:C	file:
+nand_deselect_chip	nandflash/nand.c	/^    void (*nand_deselect_chip)(void);$/;"	m	language:C	struct:__anon3	file:
+nand_deselect_chip	nandflash/nand.c	/^static void nand_deselect_chip(void)$/;"	f	language:C	file:	signature:(void)
+nand_init	nandflash/nand.c	/^void nand_init(void)$/;"	f	language:C	signature:(void)
+nand_read	nandflash/nand.c	/^void nand_read(unsigned char *buf, unsigned long start_addr, int size)$/;"	f	language:C	signature:(unsigned char *buf, unsigned long start_addr, int size)
+nand_reset	nandflash/nand.c	/^    void (*nand_reset)(void);$/;"	m	language:C	struct:__anon3	file:
+nand_reset	nandflash/nand.c	/^static void nand_reset(void)$/;"	f	language:C	file:	signature:(void)
+nand_select_chip	nandflash/nand.c	/^    void (*nand_select_chip)(void);$/;"	m	language:C	struct:__anon3	file:
+nand_select_chip	nandflash/nand.c	/^static void nand_select_chip(void)$/;"	f	language:C	file:	signature:(void)
+objs	int/Makefile	/^objs := head.o init.o interrupt.o  main.o$/;"	m	language:Make
+objs	mmu/Makefile	/^objs := head.o init.o leds.o$/;"	m	language:Make
+objs	nandflash/Makefile	/^objs = head.o init.o nand.o main.o$/;"	m	language:Make
+objs	timer/Makefile	/^objs := head.o init.o interrupt.o  main.o$/;"	m	language:Make
+on_sdram	sdram/head.S	/^on_sdram:$/;"	l	language:Asm
+read_data	nandflash/nand.c	/^    unsigned char (*read_data)(void);$/;"	m	language:C	struct:__anon3	file:
+read_data	nandflash/nand.c	/^static unsigned char read_data(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_nand_deselect_chip	nandflash/nand.c	/^static void s3c2410_nand_deselect_chip(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_nand_reset	nandflash/nand.c	/^static void s3c2410_nand_reset(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_nand_select_chip	nandflash/nand.c	/^static void s3c2410_nand_select_chip(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_read_data	nandflash/nand.c	/^static unsigned char s3c2410_read_data(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_wait_idle	nandflash/nand.c	/^static void s3c2410_wait_idle(void)$/;"	f	language:C	file:	signature:(void)
+s3c2410_write_addr	nandflash/nand.c	/^static void s3c2410_write_addr(unsigned int addr)$/;"	f	language:C	file:	signature:(unsigned int addr)
+s3c2410_write_cmd	nandflash/nand.c	/^static void s3c2410_write_cmd(int cmd)$/;"	f	language:C	file:	signature:(int cmd)
+s3c2410nand	nandflash/nand.c	/^static S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;$/;"	v	language:C	file:
+s3c2440_nand_deselect_chip	nandflash/nand.c	/^static void s3c2440_nand_deselect_chip(void)$/;"	f	language:C	file:	signature:(void)
+s3c2440_nand_reset	nandflash/nand.c	/^static void s3c2440_nand_reset(void)$/;"	f	language:C	file:	signature:(void)
+s3c2440_nand_select_chip	nandflash/nand.c	/^static void s3c2440_nand_select_chip(void)$/;"	f	language:C	file:	signature:(void)
+s3c2440_read_data	nandflash/nand.c	/^static unsigned char s3c2440_read_data(void)$/;"	f	language:C	file:	signature:(void)
+s3c2440_wait_idle	nandflash/nand.c	/^static void s3c2440_wait_idle(void)$/;"	f	language:C	file:	signature:(void)
+s3c2440_write_addr	nandflash/nand.c	/^static void s3c2440_write_addr(unsigned int addr)$/;"	f	language:C	file:	signature:(unsigned int addr)
+s3c2440_write_addr_lp	nandflash/nand.c	/^static void s3c2440_write_addr_lp(unsigned int addr)$/;"	f	language:C	file:	signature:(unsigned int addr)
+s3c2440_write_cmd	nandflash/nand.c	/^static void s3c2440_write_cmd(int cmd)$/;"	f	language:C	file:	signature:(int cmd)
+s3c2440nand	nandflash/nand.c	/^static S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;$/;"	v	language:C	file:
+t_nand_chip	nandflash/nand.c	/^}t_nand_chip;$/;"	t	language:C	typeref:struct:__anon3	file:
+wait	mmu/leds.c	/^static inline void wait(volatile unsigned long dly)$/;"	f	language:C	file:	signature:(volatile unsigned long dly)
+wait	nandflash/main.c	/^void  wait(volatile unsigned long dly)$/;"	f	language:C	signature:(volatile unsigned long dly)
+wait	sdram/leds.c	/^void wait(volatile unsigned long dly)$/;"	f	language:C	signature:(volatile unsigned long dly)
+wait_idle	nandflash/nand.c	/^    void (*wait_idle)(void);$/;"	m	language:C	struct:__anon3	file:
+wait_idle	nandflash/nand.c	/^static void wait_idle(void)$/;"	f	language:C	file:	signature:(void)
+write_addr	nandflash/nand.c	/^    void (*write_addr)(unsigned int addr);$/;"	m	language:C	struct:__anon3	file:
+write_addr	nandflash/nand.c	/^static void write_addr(unsigned int addr)$/;"	f	language:C	file:	signature:(unsigned int addr)
+write_cmd	nandflash/nand.c	/^    void (*write_cmd)(int cmd);$/;"	m	language:C	struct:__anon3	file:
+write_cmd	nandflash/nand.c	/^static void write_cmd(int cmd)$/;"	f	language:C	file:	signature:(int cmd)
