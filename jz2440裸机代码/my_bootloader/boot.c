@@ -1,8 +1,5 @@
 #include "setup.h"
 
-#define	GPFCON		(*(volatile unsigned long *)0x56000050)
-#define	GPFDAT		(*(volatile unsigned long *)0x56000054)
-
 extern void uart0_init(void);
 extern void nand_read(unsigned int addr, unsigned char *buf, unsigned int len);
 extern void puts(char *str);
@@ -12,7 +9,7 @@ static struct tag *params;
 
 void setup_start_tag()
 {
-	params = (struct tag *)0x30001000;
+	params = (struct tag *)0x30000100;
 
 	params->hdr.tag = ATAG_CORE;
 	params->hdr.size = tag_size (tag_core);
@@ -85,6 +82,7 @@ int main(void)
 	setup_start_tag ();
 	setup_memory_tags ();
 	setup_commandline_tag ("noinitrd root=/dev/mtdblock3 rootfstype=jffs2 init=/linuxrc console=ttySAC0");
+//	setup_commandline_tag ("noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0");
 
 	//setup_commandline_tag ("noinitrd root=/dev/nfs nfsroot=192.168.1.100:/work/nfs_root/first_fs ip=192.168.1.101:192.168.1.100:192.168.1.1:255.255.255.0::eth0:off  init=/linuxrc console=ttySAC0");
 	setup_end_tag ();
