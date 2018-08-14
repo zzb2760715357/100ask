@@ -26,6 +26,11 @@ __start:
 	ldr r1,=S3C2440_MPLL_400MHZ        /* 设置时钟为200MHZ */  
 	str r1,[r0]     
 
+	/*启动icache*/
+	mrc	p15, 0, r0, c1, c0, 0   @ read control reg
+	orr r0,r0,#(1<<12)
+	mcr	p15, 0, r0, c1, c0, 0   @ write it back
+
 	/*初始化sdram*/
 	ldr r0,=MEM_CTL_BASE
 	adr r1,mem_cfg_val  /*mem_cfg_val的当前地址*/
