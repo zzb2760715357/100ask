@@ -1,5 +1,6 @@
 #define MEM_CTL_BASE            0x48000000
 #define S3C2440_MPLL_200MHZ     ((0x5c<<12)|(0x01<<4)|(0x02))
+#define S3C2440_MPLL_400MHZ     ((0x5c<<12)|(0x01<<4)|(0x01))
 
 .text
 .global __start
@@ -12,7 +13,8 @@ __start:
 	
 	/*设置时钟*/
 	ldr r0,=0x4C000014
-	mov r1,#0x3
+	//mov r1,#0x3
+	mov r1,#0x05
 	str r1,[r0]
 
 	/* 如果HDIVN非0，CPU的总线模式应该从“fast bus mode”变为“asynchronous bus mode” */
@@ -21,7 +23,7 @@ __start:
     mcr    p15, 0, r1, c1, c0, 0       /* 写入控制寄存器 */
 
 	ldr r0,=0x4C000004
-	ldr r1,=S3C2440_MPLL_200MHZ        /* 设置时钟为200MHZ */  
+	ldr r1,=S3C2440_MPLL_400MHZ        /* 设置时钟为200MHZ */  
 	str r1,[r0]     
 
 	/*初始化sdram*/
