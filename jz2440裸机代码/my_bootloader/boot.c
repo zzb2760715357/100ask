@@ -81,10 +81,10 @@ int main(void)
 	puts("Set boot param\r\n");
 	setup_start_tag ();
 	setup_memory_tags ();
-	setup_commandline_tag ("noinitrd root=/dev/mtdblock3 rootfstype=jffs2 init=/linuxrc console=ttySAC0");
+//	setup_commandline_tag ("noinitrd root=/dev/mtdblock3 rootfstype=jffs2 init=/linuxrc console=ttySAC0");
 //	setup_commandline_tag ("noinitrd root=/dev/mtdblock3 init=/linuxrc console=ttySAC0");
 
-	//setup_commandline_tag ("noinitrd root=/dev/nfs nfsroot=192.168.1.100:/work/nfs_root/first_fs ip=192.168.1.101:192.168.1.100:192.168.1.1:255.255.255.0::eth0:off  init=/linuxrc console=ttySAC0");
+	setup_commandline_tag ("noinitrd root=/dev/nfs nfsroot=192.168.1.100:/work/nfs_root/first_fs ip=192.168.1.101:192.168.1.100:192.168.1.1:255.255.255.0::eth0:off  init=/linuxrc console=ttySAC0");
 	setup_end_tag ();
 	
 	/* 3. Ìø×ªÖ´ÐÐ */

@@ -3,3 +3,11 @@
 *.dis
 *_elf
 tags
+*.ko.cmd
+*.mod.o.cmd
+*.o.cmd
+Module.symvers
+*.mod.c
+.tmp_versions
+*.ko
+*.app
