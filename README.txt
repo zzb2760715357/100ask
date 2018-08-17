@@ -38,3 +38,5 @@
 |  |---3-button-irq  按键中断驱动
 |  |
 |  |---4-button-poll 按键poll驱动
+|  |
+|  |---5-button-fasync 异步通知驱动
