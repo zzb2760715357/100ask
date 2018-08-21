@@ -58,13 +58,13 @@ static void start_adc(void)
 static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 {
 	if (s3c_ts_regs->adcdat0 & (1<<15)){
-		printk("pen up\r\n");	
+		//printk("pen up\r\n");	
 		input_report_abs(s3c_ts_dev,ABS_PRESSURE,0);
 		input_report_key(s3c_ts_dev,BTN_TOUCH,0);
 		input_sync(s3c_ts_dev);
 		enter_wait_pen_down_mode();
 	}else {
-		printk("pen down\r\n");
+		//printk("pen down\r\n");
 		//enter_wait_pen_up_mode();
 		enter_measure_xy_mode();
 		start_adc();
