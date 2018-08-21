@@ -59,6 +59,9 @@ static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 {
 	if (s3c_ts_regs->adcdat0 & (1<<15)){
 		printk("pen up\r\n");	
+		input_report_abs(s3c_ts_dev,ABS_PRESSURE,0);
+		input_report_key(s3c_ts_dev,BTN_TOUCH,0);
+		input_sync(s3c_ts_dev);
 		enter_wait_pen_down_mode();
 	}else {
 		printk("pen down\r\n");
@@ -115,6 +118,9 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 	if (s3c_ts_regs->adcdat0 & (1<<15)){
 		//ËÉ¿ª
 		cnt = 0;
+		input_report_abs(s3c_ts_dev,ABS_PRESSURE,0);
+		input_report_key(s3c_ts_dev,BTN_TOUCH,0);
+		input_sync(s3c_ts_dev);
 		enter_wait_pen_up_mode();
 	}else{
 		x[cnt] = adcdata0 &0x3ff;
@@ -122,7 +128,12 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 		cnt++;
 		if (cnt == 4){
 			if (s3c_filter_ts(x,y)){
-				printk("adc_irq cnt = %d\tx = %d\ty = %d\r\n",++cnt,(x[0]+x[1]+x[2]+x[3])/4,(y[0]+y[1]+y[2]+y[3])/4);	
+				//printk("adc_irq cnt = %d\tx = %d\ty = %d\r\n",++cnt,(x[0]+x[1]+x[2]+x[3])/4,(y[0]+y[1]+y[2]+y[3])/4);	
+				input_report_abs(s3c_ts_dev,ABS_X,(x[0]+x[1]+x[2]+x[3])/4);
+				input_report_abs(s3c_ts_dev,ABS_Y,(y[0]+y[1]+y[2]+y[3])/4);
+				input_report_abs(s3c_ts_dev,ABS_PRESSURE,1);
+				input_report_key(s3c_ts_dev,BTN_TOUCH,1);
+				input_sync(s3c_ts_dev);
 			}
 			enter_wait_pen_up_mode();
 			cnt = 0;
@@ -140,6 +151,11 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 static void s3c_ts_timer_function (unsigned long data)
 {
 	if (s3c_ts_regs->adcdat0 &(1<<15)){
+
+		//ËÉ¿ª
+		input_report_abs(s3c_ts_dev,ABS_PRESSURE,0);
+		input_report_key(s3c_ts_dev,BTN_TOUCH,0);
+		input_sync(s3c_ts_dev);
 		enter_wait_pen_down_mode();
 	}else{
 		enter_measure_xy_mode();
