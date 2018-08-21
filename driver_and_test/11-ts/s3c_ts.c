@@ -41,6 +41,16 @@ static void enter_wait_pen_up_mode(void)
 {
 	s3c_ts_regs->adctsc =  0x1d3;
 }
+static void enter_measure_xy_mode(void)
+{
+	s3c_ts_regs->adctsc = (1<<3)|(1<<2);
+}
+
+static void start_adc(void)
+{
+	s3c_ts_regs->adccon |= (1<<0);
+}
+
 
 static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 {
@@ -49,11 +59,23 @@ static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 		enter_wait_pen_down_mode();
 	}else {
 		printk("pen down\r\n");
-		enter_wait_pen_up_mode();
+		//enter_wait_pen_up_mode();
+		enter_measure_xy_mode();
+		start_adc();
 	}
 
 	return IRQ_HANDLED;
 }
+
+static irqreturn_t adc_irq(int irq, void *dev_id)
+{
+	static int cnt = 0;
+
+	printk("adc_irq cnt = %d\tx = %ld\ty = %ld\r\n",++cnt,s3c_ts_regs->adcdat0&0x3ff,s3c_ts_regs->adcdat1&0x3ff);	
+	enter_wait_pen_up_mode();
+	return IRQ_HANDLED;
+}
+
 
 static int __init s3c_ts_init(void)
 {
@@ -100,6 +122,13 @@ static int __init s3c_ts_init(void)
 		return -EIO;	
 	}
 
+	if (request_irq(IRQ_ADC,adc_irq,IRQF_SAMPLE_RANDOM,"adc",NULL)){
+		printk("request IRQ_ADC irq error\r\n");
+		free_irq(IRQ_TC,NULL);
+		iounmap(s3c_ts_regs);
+		return -EIO;
+	}
+
 	enter_wait_pen_down_mode();
 
 	return 0;
@@ -108,7 +137,7 @@ static int __init s3c_ts_init(void)
 static void __exit s3c_ts_exit(void)
 {
 	printk("--- %s ---\r\n",__func__);
-
+	free_irq(IRQ_ADC,NULL);
 	free_irq(IRQ_TC,NULL);
 	iounmap(s3c_ts_regs);
 	input_unregister_device(s3c_ts_dev);
