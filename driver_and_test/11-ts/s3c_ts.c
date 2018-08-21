@@ -67,6 +67,37 @@ static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 	return IRQ_HANDLED;
 }
 
+static int s3c_filter_ts(int x[],int y[])
+{
+#define ERR_LIMIT 10
+	int avr_x,avr_y;
+	int det_x,det_y;
+
+	avr_x = (x[0]+x[1])/2;
+	avr_y = (y[0]+y[1])/2;
+
+	det_x = (x[2]>avr_x)?(x[2] - avr_x):(avr_x-x[2]);
+	det_y = (y[2]>avr_y)?(y[2] - avr_y):(avr_y-y[2]);
+
+	if ((det_x>ERR_LIMIT)||(det_y>ERR_LIMIT)){
+		return 0;
+	}
+
+	
+	avr_x = (x[1]+x[2])/2;
+	avr_y = (y[1]+y[2])/2;
+
+	det_x = (x[3]>avr_x)?(x[3] - avr_x):(avr_x-x[3]);
+	det_y = (y[3]>avr_y)?(y[3] - avr_y):(avr_y-y[3]);
+
+	if ((det_x>ERR_LIMIT)||(det_y>ERR_LIMIT)){
+		return 0;
+	}
+
+
+	return 1;
+}
+
 static irqreturn_t adc_irq(int irq, void *dev_id)
 {
 	static int cnt = 0;
@@ -87,7 +118,9 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 		y[cnt] = adcdata1 &0x3ff;
 		cnt++;
 		if (cnt == 4){
-			printk("adc_irq cnt = %d\tx = %d\ty = %d\r\n",++cnt,(x[0]+x[1]+x[2]+x[3])/4,(y[0]+y[1]+y[2]+y[3])/4);	
+			if (s3c_filter_ts(x,y)){
+				printk("adc_irq cnt = %d\tx = %d\ty = %d\r\n",++cnt,(x[0]+x[1]+x[2]+x[3])/4,(y[0]+y[1]+y[2]+y[3])/4);	
+			}
 			enter_wait_pen_up_mode();
 			cnt = 0;
 		}else{
