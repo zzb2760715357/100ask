@@ -70,9 +70,21 @@ static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 static irqreturn_t adc_irq(int irq, void *dev_id)
 {
 	static int cnt = 0;
+	int adcdata0,adcdata1;
 
-	printk("adc_irq cnt = %d\tx = %ld\ty = %ld\r\n",++cnt,s3c_ts_regs->adcdat0&0x3ff,s3c_ts_regs->adcdat1&0x3ff);	
-	enter_wait_pen_up_mode();
+	adcdata0 = s3c_ts_regs->adcdat0;
+	adcdata1 = s3c_ts_regs->adcdat1;
+
+
+	//优化触摸数据采集完成时候发现已经松开则舍弃这次操作
+	if (s3c_ts_regs->adcdat0 & (1<<15)){
+		//松开
+		enter_wait_pen_up_mode();
+	}else{
+		printk("adc_irq cnt = %d\tx = %ld\ty = %ld\r\n",++cnt,s3c_ts_regs->adcdat0&0x3ff,s3c_ts_regs->adcdat1&0x3ff);	
+		enter_wait_pen_up_mode();
+	}
+	
 	return IRQ_HANDLED;
 }
 
@@ -128,6 +140,9 @@ static int __init s3c_ts_init(void)
 		iounmap(s3c_ts_regs);
 		return -EIO;
 	}
+
+	//等待电压稳定之后再采集
+	s3c_ts_regs->adcdly = 0xffff;
 
 	enter_wait_pen_down_mode();
 
