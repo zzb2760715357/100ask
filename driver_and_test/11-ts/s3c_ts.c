@@ -30,6 +30,9 @@ struct s3c_ts_regs{
 };
 
 static volatile struct s3c_ts_regs *s3c_ts_regs;
+static struct timer_list ts_timer;
+
+static void s3c_ts_timer_function (unsigned long data);
 
 
 static void enter_wait_pen_down_mode(void)
@@ -123,6 +126,8 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 			}
 			enter_wait_pen_up_mode();
 			cnt = 0;
+			//启动定时器处理长按或滑动问题
+			mod_timer(&ts_timer,jiffies+HZ/100);
 		}else{
 			enter_measure_xy_mode();
 			start_adc();
@@ -130,6 +135,16 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 	}
 	
 	return IRQ_HANDLED;
+}
+
+static void s3c_ts_timer_function (unsigned long data)
+{
+	if (s3c_ts_regs->adcdat0 &(1<<15)){
+		enter_wait_pen_down_mode();
+	}else{
+		enter_measure_xy_mode();
+		start_adc();
+	}
 }
 
 
@@ -188,6 +203,11 @@ static int __init s3c_ts_init(void)
 	//等待电压稳定之后再采集
 	s3c_ts_regs->adcdly = 0xffff;
 
+	//添加定时器处理长按滑动问题
+	init_timer(&ts_timer);
+	ts_timer.function = s3c_ts_timer_function;
+	add_timer(&ts_timer);
+
 	enter_wait_pen_down_mode();
 
 	return 0;
@@ -196,6 +216,7 @@ static int __init s3c_ts_init(void)
 static void __exit s3c_ts_exit(void)
 {
 	printk("--- %s ---\r\n",__func__);
+	del_timer(&ts_timer);
 	free_irq(IRQ_ADC,NULL);
 	free_irq(IRQ_TC,NULL);
 	iounmap(s3c_ts_regs);
