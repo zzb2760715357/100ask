@@ -70,6 +70,7 @@ static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
 static irqreturn_t adc_irq(int irq, void *dev_id)
 {
 	static int cnt = 0;
+	static int x[4],y[4];
 	int adcdata0,adcdata1;
 
 	adcdata0 = s3c_ts_regs->adcdat0;
@@ -79,10 +80,20 @@ static irqreturn_t adc_irq(int irq, void *dev_id)
 	//优化触摸数据采集完成时候发现已经松开则舍弃这次操作
 	if (s3c_ts_regs->adcdat0 & (1<<15)){
 		//松开
+		cnt = 0;
 		enter_wait_pen_up_mode();
 	}else{
-		printk("adc_irq cnt = %d\tx = %ld\ty = %ld\r\n",++cnt,s3c_ts_regs->adcdat0&0x3ff,s3c_ts_regs->adcdat1&0x3ff);	
-		enter_wait_pen_up_mode();
+		x[cnt] = adcdata0 &0x3ff;
+		y[cnt] = adcdata1 &0x3ff;
+		cnt++;
+		if (cnt == 4){
+			printk("adc_irq cnt = %d\tx = %d\ty = %d\r\n",++cnt,(x[0]+x[1]+x[2]+x[3])/4,(y[0]+y[1]+y[2]+y[3])/4);	
+			enter_wait_pen_up_mode();
+			cnt = 0;
+		}else{
+			enter_measure_xy_mode();
+			start_adc();
+		}
 	}
 	
 	return IRQ_HANDLED;
