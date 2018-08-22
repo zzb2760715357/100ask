@@ -29,6 +29,16 @@ static unsigned char *ramblock_buf;
 
 static DEFINE_SPINLOCK(ramblock_lock);
 
+static int ramblock_getgeo(struct block_device *bdev, struct hd_geometry *geo)
+{
+	geo->heads = 2;
+	geo->cylinders = 32;
+	geo->sectors = RAMBLOCK_SIZE /2/32/512;
+
+	return 0;
+}
+
+
 static void do_ramblock_request(request_queue_t *q)
 {
 	static int r_cnt = 0;
@@ -59,6 +69,7 @@ static void do_ramblock_request(request_queue_t *q)
 static struct block_device_operations ramblock_fops =
 {
 	.owner		= THIS_MODULE,
+	.getgeo     = ramblock_getgeo,
 };
 
 
