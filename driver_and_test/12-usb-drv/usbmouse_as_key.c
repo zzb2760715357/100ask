@@ -6,9 +6,62 @@
 #include <linux/hid.h>
 
 
+static struct input_dev *usbmouse_dev;
+static int len;
+static char *usb_buf;
+static dma_addr_t usb_buf_phys;
+static struct urb *uk_urb;
+
+static void usbmouse_as_key_irq(struct urb *urb)
+{
+#if 0
+	int i;
+	static int cnt = 0;
+	printk("data cnt %d: ", ++cnt);
+	for (i = 0; i < len; i++)
+	{
+		printk("%02x ", usb_buf[i]);
+	}
+	printk("\n");
+#endif
+	static unsigned char pre_val;
+
+	if((pre_val&(1<<0)) != (usb_buf[0]&(1<<0))){
+		input_event(usbmouse_dev,EV_KEY,KEY_L,(usb_buf[0]&(1<<0))?1:0);
+		input_sync(usbmouse_dev);
+	}
+
+	if((pre_val&(1<<1)) != (usb_buf[0]&(1<<1))){
+		input_event(usbmouse_dev,EV_KEY,KEY_S,(usb_buf[0]&(1<<1))?1:0);
+		input_sync(usbmouse_dev);
+	}
+
+	if((pre_val&(1<<2)) != (usb_buf[0]&(1<<2))){
+		input_event(usbmouse_dev,EV_KEY,KEY_ENTER,(usb_buf[0]&(1<<2))?1:0);
+		input_sync(usbmouse_dev);
+	}
+
+	pre_val = usb_buf[0];
+
+
+	/* USB鼠标数据含义
+	 * data[0]: bit0-左键, 1-按下, 0-松开
+	 *          bit1-右键, 1-按下, 0-松开
+	 *          bit2-中键, 1-按下, 0-松开 
+	 *
+     */
+
+	/* 重新提交urb */
+	usb_submit_urb(uk_urb, GFP_KERNEL);
+}
+
+
 static int usbmouse_as_key_probe (struct usb_interface *intf,const struct usb_device_id *id)
 {
 	struct usb_device *dev = interface_to_usbdev(intf);
+	struct usb_host_interface *interface;
+	struct usb_endpoint_descriptor *endpoint;
+	int pipe;
 
 	printk("--- %s ---\r\n",__func__);
 	printk("found usbmouse\r\n");
@@ -17,13 +70,52 @@ static int usbmouse_as_key_probe (struct usb_interface *intf,const struct usb_de
 	printk("VID    = 0x%x\r\n",dev->descriptor.idVendor);
 	printk("PID    = 0x%x\r\n",dev->descriptor.idProduct);
 
+	interface = intf->cur_altsetting;
+	endpoint = &interface->endpoint[0].desc;
+
+	usbmouse_dev = input_allocate_device();
+
+	set_bit(EV_KEY,usbmouse_dev->evbit);
+	set_bit(EV_REP,usbmouse_dev->evbit);
+
+	set_bit(KEY_L,usbmouse_dev->keybit);
+	set_bit(KEY_S,usbmouse_dev->keybit);
+	set_bit(KEY_ENTER,usbmouse_dev->keybit);
+
+	input_register_device(usbmouse_dev);
+
+	/* 源: USB设备的某个端点 */
+	pipe = usb_rcvintpipe(dev, endpoint->bEndpointAddress);
+
+	//长度
+	len = endpoint->wMaxPacketSize;
+
+	//目标
+	usb_buf = usb_buffer_alloc(dev,len,GFP_ATOMIC,&usb_buf_phys);
+
+	//使用
+	uk_urb = usb_alloc_urb(0,GFP_KERNEL);
+	usb_fill_int_urb(uk_urb,dev,pipe,usb_buf,len,usbmouse_as_key_irq,NULL,endpoint->bInterval);
+	uk_urb->transfer_dma = usb_buf_phys;
+	uk_urb->transfer_flags |= URB_NO_TRANSFER_DMA_MAP;
+
+	usb_submit_urb(uk_urb,GFP_KERNEL);
+	
 	return 0;
 }
 
 static void usbmouse_as_key_disconnect (struct usb_interface *intf)
 {
+	struct usb_device *dev = interface_to_usbdev(intf);
+
 	printk("--- %s ---\r\n",__func__);	
 	printk("disconnect usbmouse\r\n");
+	usb_kill_urb(uk_urb);
+	usb_free_urb(uk_urb);
+	usb_buffer_free(dev,len,usb_buf,usb_buf_phys);
+	
+	input_unregister_device(usbmouse_dev);
+	input_free_device(usbmouse_dev);
 }
 
 static struct usb_device_id usbmouse_as_key_id_table [] = {
