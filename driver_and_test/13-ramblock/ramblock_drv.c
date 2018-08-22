@@ -19,9 +19,13 @@
 #include <asm/uaccess.h>
 #include <asm/dma.h>
 
+#define RAMBLOCK_SIZE (1024*1024)
+
+
 static struct gendisk *ramblock_disk;
 static request_queue_t *ramblock_queue;
 static int major;
+static unsigned char *ramblock_buf;
 
 static DEFINE_SPINLOCK(ramblock_lock);
 
@@ -29,9 +33,21 @@ static void do_ramblock_request(request_queue_t *q)
 {
 	static int cnt = 0;
 	struct request *req;
+	unsigned long offset;
+	unsigned long len;
 	
 	printk("%s:cnt = %d\r\n",__func__,cnt++);
 	while ((req = elv_next_request(q)) != NULL) {
+		offset = req->sector * 512;
+
+		len = req->current_nr_sectors * 512;
+
+		if (rq_data_dir(req) == READ){
+			memcpy(req->buffer,ramblock_buf+offset,len);	
+		}else {
+			memcpy(ramblock_buf+offset,req->buffer,len);
+		}
+		
 		end_request(req, 1);
 	}
 }
@@ -42,7 +58,7 @@ static struct block_device_operations ramblock_fops =
 	.owner		= THIS_MODULE,
 };
 
-#define RAMBLOCK_SIZE (1024*1024)
+
 
 static int __init ramblock_init(void)
 {
@@ -64,6 +80,8 @@ static int __init ramblock_init(void)
 	
 	set_capacity(ramblock_disk,RAMBLOCK_SIZE/512);
 
+	ramblock_buf = kzalloc(RAMBLOCK_SIZE,GFP_KERNEL);
+
 	//зЂВс
 	add_disk(ramblock_disk);
 
@@ -78,6 +96,7 @@ static void __exit ramblock_exit(void)
 	del_gendisk(ramblock_disk);
 	put_disk(ramblock_disk);
 	blk_cleanup_queue(ramblock_queue);
+	kfree(ramblock_buf);
 }
 
 module_init(ramblock_init);
