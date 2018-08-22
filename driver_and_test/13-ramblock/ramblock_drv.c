@@ -31,20 +31,23 @@ static DEFINE_SPINLOCK(ramblock_lock);
 
 static void do_ramblock_request(request_queue_t *q)
 {
-	static int cnt = 0;
+	static int r_cnt = 0;
+	static int w_cnt = 0;
 	struct request *req;
 	unsigned long offset;
 	unsigned long len;
 	
-	printk("%s:cnt = %d\r\n",__func__,cnt++);
+	//printk("%s:cnt = %d\r\n",__func__,cnt++);
 	while ((req = elv_next_request(q)) != NULL) {
 		offset = req->sector * 512;
 
 		len = req->current_nr_sectors * 512;
 
 		if (rq_data_dir(req) == READ){
+			printk("do_ramblock_request read %d\r\n",r_cnt++);
 			memcpy(req->buffer,ramblock_buf+offset,len);	
 		}else {
+			printk("do_ramblock_request write %d\r\n",w_cnt++);
 			memcpy(ramblock_buf+offset,req->buffer,len);
 		}
 		
