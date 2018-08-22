@@ -52,3 +52,5 @@
 |  |---10-lcd        LCD驱动程序
 |  |
 |  |---11-ts         触摸驱动程序
+|  |
+|  |---12-usb-drv         usbmouse as key driver
