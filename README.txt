@@ -58,3 +58,5 @@
 |  |---13-ramblock        内存模拟硬盘实验
 |  |
 |  |---14-nand            nandflash 驱动程序
+|  |
+|  |---15-norflash        norflash  驱动程序
