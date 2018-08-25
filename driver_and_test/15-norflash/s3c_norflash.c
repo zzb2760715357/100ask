@@ -64,7 +64,7 @@ static int __init s3c_norflash_int(void)
 static void __exit s3c_norflash_exit(void)
 {
 	printk("--- %s ---\r\n",__func__);
-
+	del_mtd_partitions(s3c_nor_mtd);
 	iounmap(s3c_nor_map->virt);
 	kfree(s3c_nor_map);
 	
