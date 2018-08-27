@@ -30,6 +30,11 @@ static	int	virtual_net_send_packet(struct sk_buff *skb,struct net_device *dev)
 
 	printk("virtual_net_send_packet cnt = %d\r\n",++cnt);
 
+
+	//更新统计信息
+	dev->stats.tx_packets++;
+	dev->stats.tx_bytes += skb->len;
+
 	return 0;
 }
 
@@ -40,6 +45,14 @@ static int __init virtual_net_init(void)
 	vir_net_dev = alloc_netdev(0, "vnet%d", ether_setup);
 
 	vir_net_dev->hard_start_xmit 	= virtual_net_send_packet;
+
+	//设置mac地址
+	vir_net_dev->dev_addr[0] = 0x08;
+    vir_net_dev->dev_addr[1] = 0x89;
+    vir_net_dev->dev_addr[2] = 0x89;
+    vir_net_dev->dev_addr[3] = 0x89;
+    vir_net_dev->dev_addr[4] = 0x89;
+    vir_net_dev->dev_addr[5] = 0x89;
 
 	register_netdev(vir_net_dev);
 
