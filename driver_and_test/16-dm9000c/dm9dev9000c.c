@@ -85,11 +85,9 @@ V2.09 05/24/2007	-support ethtool and mii-tool
 #include <linux/ethtool.h>
 #include <asm/uaccess.h>
 
-#ifdef CONFIG_ARCH_MAINSTONE
 #include <asm/io.h>
 #include <asm/hardware.h>
 #include <asm/irq.h>
-#endif
 
 
 
@@ -408,7 +406,8 @@ int __init dmfe_probe1(struct net_device *dev)
 			db->chip_revision = ior(db, DM9KS_CHIPR);
 			
 			chip_info = ior(db,0x43);
-			if((db->chip_revision!=0x1A) || ((chip_info&(1<<5))!=0) || ((chip_info&(1<<2))!=1)) return -ENODEV;
+			//去掉对版本号的判断
+			//if((db->chip_revision!=0x1A) || ((chip_info&(1<<5))!=0) || ((chip_info&(1<<2))!=1)) return -ENODEV;
 						
 			/* driver system function */				
 			dev->base_addr 		= iobase;
@@ -475,7 +474,7 @@ static int dmfe_open(struct net_device *dev)
 	int i;
 	DMFE_DBUG(0, "dmfe_open", 0);
 
-	if (request_irq(dev->irq,&dmfe_interrupt,0,dev->name,dev)) 
+	if (request_irq(dev->irq,&dmfe_interrupt,IRQF_TRIGGER_RISING,dev->name,dev)) 
 		return -EAGAIN;
 
 	/* Initilize DM910X board */
@@ -1607,7 +1606,7 @@ static struct ethtool_ops dmfe_ethtool_ops = {
 };
 #endif
 
-#ifdef MODULE
+//#ifdef MODULE
 
 MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Davicom DM9000/DM9010 ISA/uP Fast Ethernet Driver");
@@ -1628,8 +1627,29 @@ MODULE_PARM_DESC(iobase, "EtherLink I/O base address");
    when user used insmod to add module, system invoked init_module()
    to initilize and register.
 */
-int __init init_module(void)
+int __init dm9000c_init(void)
 {
+	volatile unsigned long *bwscon;
+	volatile unsigned long *bankcon4;
+	unsigned long val;
+
+	iobase = (int)ioremap(0x20000000,1024);
+	irq = IRQ_EINT7;
+
+	bwscon = ioremap(0x48000000,4);
+	bankcon4 = ioremap(0x48000014,4);
+
+	val = *bwscon;
+	val &= ~(0xf<16);
+	val |= (1<<16);
+	*bwscon = val;
+
+	*bankcon4 = (1<<8)|(1<<6);
+
+	iounmap(bankcon4);
+	iounmap(bwscon);
+	
+
 	switch(mode) {
 		case DM9KS_10MHD:
 		case DM9KS_100MHD:
@@ -1649,7 +1669,7 @@ int __init init_module(void)
    when user used rmmod to delete module, system invoked clean_module()
    to  un-register DEVICE.
 */
-void __exit cleanup_module(void)
+void __exit dm9000c_exit(void)
 {
 	struct net_device *dev = dmfe_dev;
 	DMFE_DBUG(0, "clean_module()", 0);
@@ -1661,8 +1681,13 @@ void __exit cleanup_module(void)
 #else
 	free_netdev(dev);
 #endif
-	
+
+	iounmap((void *)iobase);
 	DMFE_DBUG(0, "clean_module() exit", 0);
 }
-#endif
+//#endif
+module_init(dm9000c_init);
+module_exit(dm9000c_exit);
+
+
 

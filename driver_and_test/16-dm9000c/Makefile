@@ -1,7 +1,7 @@
 CC = arm-linux-gcc
 
 KERN_DIR  = /home/zhuang/work/project/6-jz2440/systems/linux-2.6.22.6
-DRIVER_NAME = s3c_norflash
+DRIVER_NAME = dm9dev9000c
 #APP_NAME = buttons_fasync_test
 
 all:
