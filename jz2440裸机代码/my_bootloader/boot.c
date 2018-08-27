@@ -19,7 +19,7 @@ void setup_start_tag()
 	params->u.core.rootdev = 0;
 
 	params = tag_next (params);
-}
+}board_early_init_f(void)
 void setup_memory_tags()
 {
 	params->hdr.tag = ATAG_MEM;
