@@ -76,86 +76,88 @@ void i2c_read(unsigned int slvAddr, unsigned char *buf, int len)
     IICSTAT      = 0xb0;    // 主机接收，启动
     
     /* 等待直至数据传输完毕 */    
-    while (g_tS3C24xx_I2C.DataCount != -1);
+    while (g_tS3C24xx_I2C.DataCount != 0);
 }
 
 /*
  * I2C中断服务程序
  * 根据剩余的数据长度选择继续传输或者结束
  */
-void I2CIntHandle(void)
-{
-    unsigned int iicSt,i;
-
-    // 清中断
-    SRCPND = BIT_IIC;
-    INTPND = BIT_IIC;
-    
-    iicSt  = IICSTAT; 
-
-    if(iicSt & 0x8){ printf("Bus arbitration failed\n\r"); }
-
-    switch (g_tS3C24xx_I2C.Mode)
-    {    
-        case WRDATA:
-        {
-            if((g_tS3C24xx_I2C.DataCount--) == 0)
-            {
-                // 下面两行用来恢复I2C操作，发出P信号
-                IICSTAT = 0xd0;
-                IICCON  = 0xaf;
-                Delay(10000);  // 等待一段时间以便P信号已经发出
-                break;    
-            }
-
-            IICDS = g_tS3C24xx_I2C.pData[g_tS3C24xx_I2C.Pt++];
-            
-            // 将数据写入IICDS后，需要一段时间才能出现在SDA线上
-            for (i = 0; i < 10; i++);   
-
-            IICCON = 0xaf;      // 恢复I2C传输
-            break;
-        }
-
-        case RDDATA:
-        {
-            if (g_tS3C24xx_I2C.Pt == -1)
-            {
-                // 这次中断是发送I2C设备地址后发生的，没有数据
-                // 只接收一个数据时，不要发出ACK信号
-                g_tS3C24xx_I2C.Pt = 0;
-                if(g_tS3C24xx_I2C.DataCount == 1)
-                   IICCON = 0x2f;   // 恢复I2C传输，开始接收数据，接收到数据时不发出ACK
-                else 
-                   IICCON = 0xaf;   // 恢复I2C传输，开始接收数据
-                break;
-            }
-            
-            if ((g_tS3C24xx_I2C.DataCount--) == 0)
-            {
-                g_tS3C24xx_I2C.pData[g_tS3C24xx_I2C.Pt++] = IICDS;
-
-                // 下面两行恢复I2C操作，发出P信号
-                IICSTAT = 0x90;
-                IICCON  = 0xaf;
-                Delay(10000);  // 等待一段时间以便P信号已经发出
-                break;    
-            }      
-           
-           g_tS3C24xx_I2C.pData[g_tS3C24xx_I2C.Pt++] = IICDS;
-
-           // 接收最后一个数据时，不要发出ACK信号
-           if(g_tS3C24xx_I2C.DataCount == 0)
-               IICCON = 0x2f;   // 恢复I2C传输，接收到下一数据时无ACK
-           else 
-               IICCON = 0xaf;   // 恢复I2C传输，接收到下一数据时发出ACK
-           break;
-        }
-       
-        default:
-            break;      
-    }
-}
+	void I2CIntHandle(void)
+	{
+		unsigned int iicSt,i;
+	
+		// 清中断
+		SRCPND = BIT_IIC;
+		INTPND = BIT_IIC;
+		
+		iicSt  = IICSTAT; 
+	
+		if(iicSt & 0x8){ printf("Bus arbitration failed\n\r"); }
+	
+		switch (g_tS3C24xx_I2C.Mode)
+		{	 
+			case WRDATA:
+			{
+				if((g_tS3C24xx_I2C.DataCount--) == 0)
+				{
+					// 下面两行用来恢复I2C操作，发出P信号
+					IICSTAT = 0xd0;
+					IICCON	= 0xaf;
+					Delay(10000);  // 等待一段时间以便P信号已经发出
+					break;	  
+				}
+	
+				IICDS = g_tS3C24xx_I2C.pData[g_tS3C24xx_I2C.Pt++];
+				
+				// 将数据写入IICDS后，需要一段时间才能出现在SDA线上
+				for (i = 0; i < 10; i++);	
+	
+				IICCON = 0xaf;		// 恢复I2C传输
+				break;
+			}
+	
+			case RDDATA:
+			{
+				if (g_tS3C24xx_I2C.Pt == -1)
+				{
+					// 这次中断是发送I2C设备地址后发生的，没有数据
+					// 只接收一个数据时，不要发出ACK信号
+					g_tS3C24xx_I2C.Pt = 0;
+					if(g_tS3C24xx_I2C.DataCount == 1)
+					   IICCON = 0x2f;	// 恢复I2C传输，开始接收数据，接收到数据时不发出ACK
+					else 
+					   IICCON = 0xaf;	// 恢复I2C传输，开始接收数据
+					break;
+				}
+	
+				g_tS3C24xx_I2C.pData[g_tS3C24xx_I2C.Pt++] = IICDS;
+				g_tS3C24xx_I2C.DataCount--;
+				
+				if (g_tS3C24xx_I2C.DataCount == 0)
+				{
+	
+					// 下面两行恢复I2C操作，发出P信号
+					IICSTAT = 0x90;
+					IICCON	= 0xaf;
+					Delay(10000);  // 等待一段时间以便P信号已经发出
+					break;	  
+				}	   
+				else
+				{			
+				   // 接收最后一个数据时，不要发出ACK信号
+				   if(g_tS3C24xx_I2C.DataCount == 1)
+					   IICCON = 0x2f;	// 恢复I2C传输，接收到下一数据时无ACK
+				   else 
+					   IICCON = 0xaf;	// 恢复I2C传输，接收到下一数据时发出ACK
+				}
+			   break;
+			}
+		   
+			default:
+				break;		
+		}
+	}
 
 /*
  * 延时函数

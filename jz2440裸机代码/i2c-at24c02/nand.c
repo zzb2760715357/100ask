@@ -54,10 +54,6 @@ typedef struct {
     unsigned char (*read_data)(void);
 }t_nand_chip;
 
-static S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
-static S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
-
-static t_nand_chip nand_chip;
 
 /* 供外部调用的函数 */
 void nand_init(void);
@@ -105,6 +101,8 @@ static void s3c2410_nand_reset(void)
 static void s3c2410_wait_idle(void)
 {
     int i;
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+	
     volatile unsigned char *p = (volatile unsigned char *)&s3c2410nand->NFSTAT;
     while(!(*p & BUSY))
         for(i=0; i<10; i++);
@@ -114,6 +112,8 @@ static void s3c2410_wait_idle(void)
 static void s3c2410_nand_select_chip(void)
 {
     int i;
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+	
     s3c2410nand->NFCONF &= ~(1<<11);
     for(i=0; i<10; i++);    
 }
@@ -121,12 +121,16 @@ static void s3c2410_nand_select_chip(void)
 /* 取消片选信号 */
 static void s3c2410_nand_deselect_chip(void)
 {
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+
     s3c2410nand->NFCONF |= (1<<11);
 }
 
 /* 发出命令 */
 static void s3c2410_write_cmd(int cmd)
 {
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+
     volatile unsigned char *p = (volatile unsigned char *)&s3c2410nand->NFCMD;
     *p = cmd;
 }
@@ -135,6 +139,8 @@ static void s3c2410_write_cmd(int cmd)
 static void s3c2410_write_addr(unsigned int addr)
 {
     int i;
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+	
     volatile unsigned char *p = (volatile unsigned char *)&s3c2410nand->NFADDR;
     
     *p = addr & 0xff;
@@ -150,6 +156,8 @@ static void s3c2410_write_addr(unsigned int addr)
 /* 读取数据 */
 static unsigned char s3c2410_read_data(void)
 {
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+
     volatile unsigned char *p = (volatile unsigned char *)&s3c2410nand->NFDATA;
     return *p;
 }
@@ -169,6 +177,8 @@ static void s3c2440_nand_reset(void)
 static void s3c2440_wait_idle(void)
 {
     int i;
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+	
     volatile unsigned char *p = (volatile unsigned char *)&s3c2440nand->NFSTAT;
     while(!(*p & BUSY))
         for(i=0; i<10; i++);
@@ -178,6 +188,8 @@ static void s3c2440_wait_idle(void)
 static void s3c2440_nand_select_chip(void)
 {
     int i;
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+	
     s3c2440nand->NFCONT &= ~(1<<1);
     for(i=0; i<10; i++);    
 }
@@ -185,12 +197,16 @@ static void s3c2440_nand_select_chip(void)
 /* 取消片选信号 */
 static void s3c2440_nand_deselect_chip(void)
 {
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+
     s3c2440nand->NFCONT |= (1<<1);
 }
 
 /* 发出命令 */
 static void s3c2440_write_cmd(int cmd)
 {
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+
     volatile unsigned char *p = (volatile unsigned char *)&s3c2440nand->NFCMD;
     *p = cmd;
 }
@@ -199,6 +215,8 @@ static void s3c2440_write_cmd(int cmd)
 static void s3c2440_write_addr(unsigned int addr)
 {
     int i;
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+	
     volatile unsigned char *p = (volatile unsigned char *)&s3c2440nand->NFADDR;
     
     *p = addr & 0xff;
@@ -215,6 +233,8 @@ static void s3c2440_write_addr(unsigned int addr)
 static void s3c2440_write_addr_lp(unsigned int addr)
 {
 	int i;
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+	
 	volatile unsigned char *p = (volatile unsigned char *)&s3c2440nand->NFADDR;
 	int col, page;
 
@@ -237,6 +257,8 @@ static void s3c2440_write_addr_lp(unsigned int addr)
 /* 读取数据 */
 static unsigned char s3c2440_read_data(void)
 {
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+
     volatile unsigned char *p = (volatile unsigned char *)&s3c2440nand->NFDATA;
     return *p;
 }
@@ -245,44 +267,98 @@ static unsigned char s3c2440_read_data(void)
 /* 在第一次使用NAND Flash前，复位一下NAND Flash */
 static void nand_reset(void)
 {
-    nand_chip.nand_reset();
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_nand_reset();
+    }
+	else
+	{
+		s3c2440_nand_reset();
+	}
 }
 
 static void wait_idle(void)
 {
-    nand_chip.wait_idle();
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_wait_idle();
+    }
+	else
+	{
+		s3c2440_wait_idle();
+	}
 }
 
 static void nand_select_chip(void)
 {
     int i;
-    nand_chip.nand_select_chip();
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_nand_select_chip();
+    }
+	else
+	{
+		s3c2440_nand_select_chip();
+	}
     for(i=0; i<10; i++);
 }
 
 static void nand_deselect_chip(void)
 {
-    nand_chip.nand_deselect_chip();
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_nand_deselect_chip();
+    }
+	else
+	{
+		s3c2440_nand_deselect_chip();
+	}
 }
 
 static void write_cmd(int cmd)
 {
-    nand_chip.write_cmd(cmd);
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_write_cmd(cmd);
+    }
+	else
+	{
+		s3c2440_write_cmd(cmd);
+	}
 }
 static void write_addr(unsigned int addr)
 {
-    nand_chip.write_addr(addr);
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		s3c2410_write_addr(addr);
+    }
+	else
+	{
+		s3c2440_write_addr_lp(addr);
+	}
 }
 
 static unsigned char read_data(void)
 {
-    return nand_chip.read_data();
+	if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
+    {
+		return s3c2410_read_data();
+    }
+	else
+	{
+		return s3c2440_read_data();
+	}
+
 }
 
 
 /* 初始化NAND Flash */
 void nand_init(void)
 {
+	S3C2410_NAND * s3c2410nand = (S3C2410_NAND *)0x4e000000;
+	S3C2440_NAND * s3c2440nand = (S3C2440_NAND *)0x4e000000;
+
+
 #define TACLS   0
 #define TWRPH0  3
 #define TWRPH1  0
@@ -290,39 +366,19 @@ void nand_init(void)
     /* 判断是S3C2410还是S3C2440 */
     if ((GSTATUS1 == 0x32410000) || (GSTATUS1 == 0x32410002))
     {
-        nand_chip.nand_reset         = s3c2410_nand_reset;
-        nand_chip.wait_idle          = s3c2410_wait_idle;
-        nand_chip.nand_select_chip   = s3c2410_nand_select_chip;
-        nand_chip.nand_deselect_chip = s3c2410_nand_deselect_chip;
-        nand_chip.write_cmd          = s3c2410_write_cmd;
-        nand_chip.write_addr         = s3c2410_write_addr;
-        nand_chip.read_data          = s3c2410_read_data;
-
 		/* 使能NAND Flash控制器, 初始化ECC, 禁止片选, 设置时序 */
         s3c2410nand->NFCONF = (1<<15)|(1<<12)|(1<<11)|(TACLS<<8)|(TWRPH0<<4)|(TWRPH1<<0);
-    }
+		s3c2410_nand_reset();
+	}
     else
     {
-        nand_chip.nand_reset         = s3c2440_nand_reset;
-        nand_chip.wait_idle          = s3c2440_wait_idle;
-        nand_chip.nand_select_chip   = s3c2440_nand_select_chip;
-        nand_chip.nand_deselect_chip = s3c2440_nand_deselect_chip;
-        nand_chip.write_cmd          = s3c2440_write_cmd;
-#ifdef LARGER_NAND_PAGE
-        nand_chip.write_addr         = s3c2440_write_addr_lp;
-#else
-		nand_chip.write_addr		 = s3c2440_write_addr;
-#endif
-        nand_chip.read_data          = s3c2440_read_data;
-
+       
 		/* 设置时序 */
         s3c2440nand->NFCONF = (TACLS<<12)|(TWRPH0<<8)|(TWRPH1<<4);
         /* 使能NAND Flash控制器, 初始化ECC, 禁止片选 */
         s3c2440nand->NFCONT = (1<<4)|(1<<1)|(1<<0);
+		s3c2440_nand_reset();
     }
-    
-    /* 复位NAND Flash */
-    nand_reset();
 }
 
 
@@ -330,16 +386,6 @@ void nand_init(void)
 void nand_read(unsigned char *buf, unsigned long start_addr, int size)
 {
     int i, j;
-
-#ifdef LARGER_NAND_PAGE
-    if ((start_addr & NAND_BLOCK_MASK_LP) || (size & NAND_BLOCK_MASK_LP)) {
-        return ;    /* 地址或长度不对齐 */
-    }
-#else
-    if ((start_addr & NAND_BLOCK_MASK) || (size & NAND_BLOCK_MASK)) {
-        return ;    /* 地址或长度不对齐 */
-    }
-#endif	
 
     /* 选中芯片 */
     nand_select_chip();
