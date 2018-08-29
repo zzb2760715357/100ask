@@ -23,6 +23,7 @@
 
 static int major;
 static struct cdev hello_cdev;
+static struct cdev hello2_cdev;
 static struct class *cls;
 
 static int hello_open (struct inode *inode, struct file *filep)
@@ -35,6 +36,17 @@ static int hello_open (struct inode *inode, struct file *filep)
 
 const struct file_operations hello_fops = {
 	.open = hello_open,
+};
+
+static int hello2_open (struct inode *inode, struct file *filep)
+{
+	printk("--- %s --- \r\n",__func__);
+
+	return 0;
+}
+
+const struct file_operations hello2_fops = {
+	.open = hello2_open,
 };
 
 
@@ -54,12 +66,18 @@ static int __init hello_init(void)
 	cdev_init(&hello_cdev,&hello_fops);
 	cdev_add(&hello_cdev,devid,HELLO_CNT);
 
+	devid = MKDEV(major,2);
+	register_chrdev_region(devid,1,"hello2");
+	cdev_init(&hello2_cdev,&hello2_fops);
+	cdev_add(&hello2_cdev,devid,1);
+
+
 
 	cls = class_create(THIS_MODULE,"hello");
 	class_device_create(cls,NULL,MKDEV(major,0),NULL,"hello0");
 	class_device_create(cls,NULL,MKDEV(major,1),NULL,"hello1");
 	class_device_create(cls,NULL,MKDEV(major,2),NULL,"hello2");
-	
+	class_device_create(cls,NULL,MKDEV(major,3),NULL,"hello3");
 
 	return 0;
 }
@@ -71,8 +89,12 @@ static void __exit hello_exit(void)
 	class_device_destroy(cls,MKDEV(major,0));
 	class_device_destroy(cls,MKDEV(major,1));
 	class_device_destroy(cls,MKDEV(major,2));
+	class_device_destroy(cls,MKDEV(major,3));
 	class_destroy(cls);
 
+	cdev_del(&hello2_cdev);	
+	unregister_chrdev_region(MKDEV(major,2),1);
+	
 	cdev_del(&hello_cdev);
 	unregister_chrdev_region(MKDEV(major,0),HELLO_CNT);
 }
