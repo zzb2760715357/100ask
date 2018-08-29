@@ -23,22 +23,17 @@ static unsigned short normal_i2c[] = {
 
 static unsigned short ignore = I2C_CLIENT_END;
 
-static unsigned short force_addr[] = {ANY_I2C_BUS,0x60,I2C_CLIENT_END};
-static unsigned short *forces[] = {force_addr,NULL};
-
 static struct i2c_client_address_data addr_data = {
 	.normal_i2c		= normal_i2c,
 	.probe			= &ignore,
 	.ignore			= &ignore,
-	.forces         = forces,
 };
 
 
 static int at24c02_detect (struct i2c_adapter *adapter, int address, int kind)
 {
 	printk("--- %s ---\r\n",__func__);
-
-	return 0;
+		
 }
 
 static int at24c02_attach_adapter(struct i2c_adapter *adapter)
