@@ -23,17 +23,32 @@ static unsigned short normal_i2c[] = {
 
 static unsigned short ignore = I2C_CLIENT_END;
 
+static unsigned short force_addr[] = {ANY_I2C_BUS,0x60,I2C_CLIENT_END};
+static unsigned short *forces[] = {force_addr,NULL};
+
 static struct i2c_client_address_data addr_data = {
 	.normal_i2c		= normal_i2c,
 	.probe			= &ignore,
 	.ignore			= &ignore,
+	//.forces         = forces,
 };
 
+static struct i2c_driver at24c02_driver;
 
 static int at24c02_detect (struct i2c_adapter *adapter, int address, int kind)
 {
+	struct i2c_client *new_client;
+
 	printk("--- %s ---\r\n",__func__);
-		
+
+	new_client = kzalloc(sizeof(struct i2c_client),GFP_KERNEL);
+	new_client->addr		= address;
+	new_client->adapter     = adapter;
+	new_client->driver      = &at24c02_driver;
+	strcpy(new_client->name,"at24cxx");
+	i2c_attach_client(new_client);
+
+	return 0;
 }
 
 static int at24c02_attach_adapter(struct i2c_adapter *adapter)
@@ -47,9 +62,11 @@ static int at24c02_detach_client(struct i2c_client *client)
 {
 	printk("--- %s ---\r\n",__func__);
 
+	i2c_detach_client(client);
+	kfree(i2c_get_clientdata(client));
+
 	return 0;
 }
-
 
 static struct i2c_driver at24c02_driver = {
 	.driver = {
@@ -58,6 +75,8 @@ static struct i2c_driver at24c02_driver = {
 	.attach_adapter = at24c02_attach_adapter,
 	.detach_client  = at24c02_detach_client,
 };
+
+
 
 static int __init at24c02_init(void)
 {
