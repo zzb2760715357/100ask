@@ -43,7 +43,7 @@ static ssize_t at24c02_read (struct file *filep, char __user * buf, size_t count
 {
 	unsigned char address;
 	unsigned char data;
-	struct i2c_msg msg[1];
+	struct i2c_msg msg[2];
 	int ret;
 
 	if (count !=1)

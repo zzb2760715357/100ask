@@ -11,9 +11,11 @@ int main(int argc,char **argv)
 	int fd;
 	unsigned char buf[2];
 
-	if ((argc != 3)||(argc != 4)){
+	if ((argc != 3)&&(argc != 4)){
 		printf("%s r addr\r\n",argv[0]);
 		printf("%s w addr val\r\n",argv[0]);
+
+		return 0;
 	}
 
 	fd = open("/dev/at24cxx",O_RDWR);
