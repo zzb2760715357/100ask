@@ -83,6 +83,8 @@ static int s3c_dma_ioctl (struct inode *inode, struct file *file, unsigned int c
 
 		case MEM_CPY_DMA:
 		{
+			ev_dma = 0;
+			
 			dma_regs->disrc   = src_phys;
 			dma_regs->disrcc  = (0<<1)|(0<<0);
 			dma_regs->didst   = dst_phys;
@@ -134,6 +136,7 @@ static int __init s3c_dma_init(void)
 
 	src = dma_alloc_writecombine(NULL,BUF_SIZE,&src_phys,GFP_KERNEL);
 	if (src == NULL){
+		free_irq(IRQ_DMA3,&irq_num);
 		printk("can not alloc buffer for src");
 		return -ENOMEM;
 	}
@@ -150,7 +153,7 @@ static int __init s3c_dma_init(void)
 	cls = class_create(THIS_MODULE,"s3c_dma");
 	class_device_create(cls,NULL,MKDEV(major,0),NULL,"dma");
 
-	dma_regs = ioremap(DMA3_BASE_ADDR,BUF_SIZE);
+	dma_regs = ioremap(DMA3_BASE_ADDR,sizeof(struct s3c_dma_regs));
 	
 
 
