@@ -54,7 +54,7 @@ static volatile struct s3c_dma_regs *dma_regs;
 static int irq_num = 1;
 
 static DECLARE_WAIT_QUEUE_HEAD(dma_wait);
-static volatile int ev_dma;
+static volatile int ev_dma = 0;
 
 
 
@@ -62,8 +62,8 @@ static int s3c_dma_ioctl (struct inode *inode, struct file *file, unsigned int c
 {
 	int i;
 
-	memset(src,0xaa,BUF_SIZE);
-	memset(dst,0x55,BUF_SIZE);
+	memset(src, 0xAA, BUF_SIZE);
+	memset(dst, 0x55, BUF_SIZE);
 
 	switch (cmd)	
 	{
@@ -72,7 +72,7 @@ static int s3c_dma_ioctl (struct inode *inode, struct file *file, unsigned int c
 			for(i = 0;i < BUF_SIZE;i ++)
 				dst[i] = src[i];
 
-			if (memcpy(src,dst,BUF_SIZE) == 0){
+			if (memcmp(src,dst,BUF_SIZE) == 0){
 				printk("MEM_CPY_NO_DMA OK\r\n");
 			}else {
 				printk("MEM_CPY_NO_DMA ERROR\r\n");
@@ -87,7 +87,7 @@ static int s3c_dma_ioctl (struct inode *inode, struct file *file, unsigned int c
 			dma_regs->disrcc  = (0<<1)|(0<<0);
 			dma_regs->didst   = dst_phys;
 			dma_regs->didstc  = (0<<2)|(0<<1)|(0<<0);
-			dma_regs->dcon    = (1<<30)|(1<<29)|(0<<28)|(1<<27)|(0<<23)|(0<<20)|(BUF_SIZE<0);
+			dma_regs->dcon    = (1<<30)|(1<<29)|(0<<28)|(1<<27)|(0<<23)|(0<<20)|(BUF_SIZE<<0);
 
 			//Æô¶¯dma
 			dma_regs->dmasktrig = (1<<1)|(1<<0);
@@ -95,7 +95,7 @@ static int s3c_dma_ioctl (struct inode *inode, struct file *file, unsigned int c
 
 			wait_event_interruptible(dma_wait,ev_dma);
 
-			if (memcpy(src,dst,BUF_SIZE) == 0){
+			if (memcmp(src,dst,BUF_SIZE) == 0){
 				printk("MEM_CPY_DMA OK\r\n");
 			}else {
 				printk("MEM_CPY_DMA ERROR\r\n");
