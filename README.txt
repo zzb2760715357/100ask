@@ -31,6 +31,8 @@
 |   |---i2c-at24c02   at24c02的读写程序
 |   |
 |   |---debug_with_led      使用LED进行调试
+|   |
+|   |---debug_with_serial   使用串口进行调试
 |
 |
 |
