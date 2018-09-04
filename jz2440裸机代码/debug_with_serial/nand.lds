@@ -1,4 +1,13 @@
 SECTIONS{
-    firtst 0x00000000:{head.o init.o nand.o}
-    second 0x30000000:AT(4096){main.o}
+    . = 0x30000000;
+    .text : {
+		head.o(.text)
+		init.o(.text)
+		nand.o(.text)
+
+		*(.text)}
+    .rodata ALIGN(4) :{*(.rodata)}
+    .data ALIGN(4) :{*(.data)}
+    .bss ALIGN(4):{*(.bss) *(COMMON)}
 }
+    
