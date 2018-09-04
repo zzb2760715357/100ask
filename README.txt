@@ -29,6 +29,8 @@
 |   |---my_bootloader 自己编写的简单bootloader
 |   |
 |   |---i2c-at24c02   at24c02的读写程序
+|   |
+|   |---debug_with_led      使用LED进行调试
 |
 |
 |
@@ -72,3 +74,5 @@
 |  |---19-cdev              cdev driver test
 |  |
 |  |---20-dma-driver        dma驱动程序
+
+
