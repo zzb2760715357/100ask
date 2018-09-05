@@ -6,9 +6,9 @@ nand.bin : $(objs)
 	arm-linux-objdump -D -m arm nand_elf > nand.dis 
 
 %.o:%.c
-	arm-linux-gcc -Wall -c -O2 -o $@ $<
+	arm-linux-gcc -Wall -c -g -O2 -o $@ $<
 %.o:%.S
-	arm-linux-gcc -Wall -c -O2 -o $@ $<
+	arm-linux-gcc -Wall -c -g -O2 -o $@ $<
 
 clean:
 	rm *.o *.bin nand_elf nand.dis

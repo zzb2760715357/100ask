@@ -3,8 +3,8 @@
 _start:
 	ldr sp,=4096
 	bl disable_watch_dog
-	bl memsetup
-	bl nand_init
+	@bl memsetup
+	@bl nand_init
 
 	ldr r0,=0x30000000
 	mov r1,#0
