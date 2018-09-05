@@ -1,21 +1,25 @@
-#define WTCON (*(volatile unsigned long *)0x53000000)
+/* WOTCH DOG register */
+#define 	WTCON				(*(volatile unsigned long *)0x53000000)
 
-#define MEM_CTL_BASE	0x48000000
-
+/* SDRAM regisers */
+#define 	MEM_CTL_BASE		0x48000000
+ 
 void disable_watch_dog();
 void memsetup();
 
+/*ÉÏµçºó£¬WATCH DOGÄ¬ÈÏÊÇ¿ª×ÅµÄ£¬Òª°ÑËü¹Øµô */
 void disable_watch_dog()
 {
-	WTCON = 0;
+	WTCON	= 0;
 }
 
+/* ÉèÖÃ¿ØÖÆSDRAMµÄ13¸ö¼Ä´æÆ÷ */
 void memsetup()
 {
-	int i = 0;
+	int 	i = 0;
 	unsigned long *p = (unsigned long *)MEM_CTL_BASE;
-	
-	 /* SDRAM 13ä¸ªå¯„å­˜å™¨çš„å€¼ */
+
+    /* SDRAM 13¸ö¼Ä´æÆ÷µÄÖµ */
     unsigned long  const    mem_cfg_val[]={ 0x22011110,     //BWSCON
                                             0x00000700,     //BANKCON0
                                             0x00000700,     //BANKCON1
@@ -31,7 +35,6 @@ void memsetup()
                                             0x00000030,     //MRSRB7
                                     };
 
-	for (;i < 13;i++)
+	for(; i < 13; i++)
 		p[i] = mem_cfg_val[i];
-
 }

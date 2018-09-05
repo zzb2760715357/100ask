@@ -1,3 +1,4 @@
+
 #define	GPFCON		(*(volatile unsigned long *)0x56000050)
 #define	GPFDAT		(*(volatile unsigned long *)0x56000054)
 
@@ -14,11 +15,11 @@ int main(void)
 {
 	unsigned long i = 0;
 
-	GPFCON = GPF4_out|GPF5_out|GPF6_out;		// 灏哃ED1-3瀵瑰簲鐨凣PF4/5/6涓変釜寮曡剼璁句负杈撳嚭
+	GPFCON = GPF4_out|GPF5_out|GPF6_out;		// 将LED1-3对应的GPF4/5/6三个引脚设为输出
 
 	while(1){
 		wait(30000);
-		GPFDAT = (~(i<<4));	 	// 鏍规嵁i鐨勫�硷紝鐐逛寒LED1-3
+		GPFDAT = (~(i<<4));	 	// 根据i的值，点亮LED1-3
 		if(++i == 8)
 			i = 0;
 	}
