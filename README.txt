@@ -33,6 +33,8 @@
 |   |---debug_with_led      使用LED进行调试
 |   |
 |   |---debug_with_serial   使用串口进行调试
+|   |
+|   |---debug_with_jtag     使用jtag进行调试
 |
 |
 |
