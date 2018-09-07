@@ -17,7 +17,15 @@
 
 static struct proc_dir_entry *entry;
 
+ssize_t mykmsg_read (struct file *file, char __user *buf, size_t size, loff_t *ppos)
+{
+	printk("-- %s --\r\n",__func__);
+
+	return 0;	
+}
+
 static const struct file_operations proc_fops = {
+	.read = mykmsg_read,
 };
 
 static int __init mykmsg_init(void)
