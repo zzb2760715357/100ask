@@ -16,12 +16,14 @@
 
 
 static struct proc_dir_entry *entry;
+static char mylog_buf[1024];
 
 ssize_t mykmsg_read (struct file *file, char __user *buf, size_t size, loff_t *ppos)
 {
-	printk("-- %s --\r\n",__func__);
+	if (copy_to_user(buf,mylog_buf,10))
+		return -EFAULT;
 
-	return 0;	
+	return 10;	
 }
 
 static const struct file_operations proc_fops = {
@@ -31,6 +33,8 @@ static const struct file_operations proc_fops = {
 static int __init mykmsg_init(void)
 {
 	printk("-- %s --\r\n",__func__);
+
+	sprintf(mylog_buf,"abcdefghijkobqrst");
 
 	entry = create_proc_entry("mykmsg",S_IRUSR,&proc_root);
 	if (entry){
