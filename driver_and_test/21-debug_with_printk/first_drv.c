@@ -20,12 +20,18 @@ static struct class_device *firstdrv_class_dev;
 volatile unsigned long *gpfcon = NULL;
 volatile unsigned long *gpfdat = NULL;
 
+#define debug_printk printk
+//#define debug_printk(x...) 
+
 static int first_drv_open (struct inode *inode, struct file *file)
 {
 	/*配置gpio为输出状态*/
 	printk("--- %s --- \r\n",__func__);
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
 	*gpfcon &= ~((0x3<<(4*2))|(0x3<<(5*2))|(0x3<<(6*2))); 
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
 	*gpfcon |= ((0x1<<(4*2))|(0x1<<(5*2))|(0x1<<(6*2)));
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
 
 	return 0;
 }
@@ -43,11 +49,13 @@ static ssize_t first_drv_write (struct file *file, const char __user *buf, size_
 
 	if (val == 1){
 		//点灯
-		printk("--- %s:%d ---\r\n",__func__,__LINE__);
+//		printk("--- %s:%d ---\r\n",__func__,__LINE__);
+		printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 		*gpfdat &= ~((1<<4)|(1<<5)|(1<<6));
 	}else{
 		//灭灯
-		printk("--- %s:%d ---\r\n",__func__,__LINE__);
+//		printk("--- %s:%d ---\r\n",__func__,__LINE__);
+		printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 		*gpfdat |= ((1<<4)|(1<<5)|(1<<6));
 	}
 
@@ -66,13 +74,22 @@ static int __init first_drv_init(void)
 {
 	printk("--- %s --- \r\n",__func__);
 	//0自动分配设备号
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
+	printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 	major = register_chrdev(0,"first_drv",&first_drv_fops);
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
+	printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 
 	firstdrv_class = class_create(THIS_MODULE,"firstdrv");
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
+	printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 
 	firstdrv_class_dev = class_device_create(firstdrv_class,NULL,MKDEV(major,0),NULL,"xxx");
+//	debug_printk("-- %s:%d --\r\n",__func__,__LINE__);
+	printk(KERN_DEBUG"--- %s:%d ---\r\n",__func__,__LINE__);
 
-	gpfcon =(volatile unsigned long *) ioremap(0x56000050,16);
+	//gpfcon =(volatile unsigned long *) ioremap(0x56000050,16);
+	gpfcon =(volatile unsigned long *)0x56000050;
 	gpfdat = gpfcon + 1;
 
 	return 0;

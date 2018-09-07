@@ -1,3 +1,4 @@
+*libc.a
 *.o
 *.bin
 *.dis

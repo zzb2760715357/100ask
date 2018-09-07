@@ -80,5 +80,7 @@
 |  |---19-cdev              cdev driver test
 |  |
 |  |---20-dma-driver        dma驱动程序
+|  |
+|  |---21-debug_with_printk 通过printk定位出问题的代码
 
 
