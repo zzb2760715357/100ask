@@ -84,5 +84,7 @@
 |  |---21-debug_with_printk 通过printk定位出问题的代码
 |  |
 |  |---22-proc_mykmsg       mykmsg
+|  |
+|  |---23-debug_regeditor   自己制作的io debug tool 
 
 
