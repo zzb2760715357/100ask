@@ -1,7 +1,8 @@
 CC = arm-linux-gcc
 
-KERN_DIR  = /home/zhuang/work/project/6-jz2440/systems/linux-2.6.22.6
-DRIVER_NAME = s3c_ts
+KERN_DIR  	 = /home/zhuang/work/project/6-jz2440/systems/linux-2.6.22.6
+DRIVER_NAME  = s3c_ts
+DRIVER_NAME2 = mykmsg
 #APP_NAME = buttons_fasync_test
 
 all:
@@ -18,3 +19,4 @@ install:
 #	cp $(APP_NAME).app /work/nfs_root/first_fs/mydriver
 
 obj-m += $(DRIVER_NAME).o
+obj-m += $(DRIVER_NAME2).o

@@ -58,7 +58,7 @@ static void start_adc(void)
 
 static void write_input_event_to_file(unsigned int time,unsigned int type,unsigned int code,int val)
 {
-	myprintk("0x%08x %x%08x %x%08 %d\r\n",time,type,code,val);
+	myprintk("0x%08x 0x%08x 0x%08x %d\r\n",time,type,code,val);
 }
 
 static irqreturn_t pen_down_up_irq(int irq, void *dev_id)
