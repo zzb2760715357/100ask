@@ -86,5 +86,9 @@
 |  |---22-proc_mykmsg       mykmsg
 |  |
 |  |---23-debug_regeditor   自己制作的io debug tool 
+|  |
+|  |---24-test-debug        打印应用程序出错的信息
+|  |
+|  |---25-test-system-call  自己制作相关的系统调用
 
 
