@@ -13,3 +13,4 @@ Module.symvers
 *.ko
 *.app
 *.c.swp
+*.swp
