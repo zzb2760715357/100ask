@@ -91,6 +91,7 @@
 |  |
 |  |---25-test-system-call  自己制作相关的系统调用
 |  |
-|  |---26-debug-with-system-call  使用自己的系统调用进行调试 
-|
+|  |---26-debug-with-system-call        使用自己的系统调用进行调试 
+|  |
+|  |---27-debug-input-emulate           输入模拟器
 
