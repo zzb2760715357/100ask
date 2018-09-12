@@ -41,11 +41,7 @@ static int is_mylog_empty_for_read(void)
 
 static int is_mylog_full(void)
 {
-	if ((mylog_w + 1) % MYLOG_BUF_LEN == mylog_r){
-		return 1;
-	}else{
-		return 0;
-	}
+	return ((mylog_w + 1)% MYLOG_BUF_LEN == mylog_r);
 }
 
 static void mylog_putc(char c)

@@ -1,10 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-
+#include <stdio.h>
+#include <poll.h>
+#include <signal.h>
+#include <sys/types.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define INPUT_REPLAY 0
 #define INPUT_TAG    1
@@ -55,8 +60,10 @@ int main(int argc,char **argv)
 			if (len == 0){
 				printf("write ok\r\n");
 				break;
-			}else{
-				write(fd_data,buf,len);
+			}
+			else
+			{
+				write(fd, buf, len);				
 			}
 		}
 	}else if(strcmp(argv[1],"tag") == 0){
