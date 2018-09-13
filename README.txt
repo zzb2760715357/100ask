@@ -94,4 +94,6 @@
 |  |---26-debug-with-system-call        使用自己的系统调用进行调试 
 |  |
 |  |---27-debug-input-emulate           输入模拟器
+|  |
+|  |---28-linux-i2c                     linux3.4.2内核的i2c驱动编程
 
