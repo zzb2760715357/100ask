@@ -96,4 +96,6 @@
 |  |---27-debug-input-emulate           输入模拟器
 |  |
 |  |---28-linux-i2c                     linux3.4.2内核的i2c驱动编程
+|  |
+|  |---29-mulit_ts                      多点触摸驱动（暂时没有添加相关代码）
 
