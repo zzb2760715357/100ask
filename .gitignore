@@ -1,3 +1,4 @@
+*.order
 *libc.a
 *.o
 *.bin
