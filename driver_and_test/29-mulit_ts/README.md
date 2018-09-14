@@ -2,13 +2,13 @@
 ##### 输入子系统：实现了open、read、write等操作
 ##### input.c提供了fops等操作 ,根据次设备号找到对应的fops结构体 
 ##### 我们只需要实现硬件相关的代码 
-#####构造input_device,调用input_event上报数据 
+##### 构造input_device,调用input_event上报数据 
 ---
 ---
 #### 单点触摸和多点触摸有什么区别
 
-#####上报数据：ABS_X、ABS_Y等
-#####内核文档：上报的数据分成AB两类.
+##### 上报数据：ABS_X、ABS_Y等
+##### 内核文档：上报的数据分成AB两类.
 ##### SYN_MT_REPORT
 ##### SYN_REPORT
 ##### typeA:简单粗暴型，只上报触电位置，不关心触点之间的关系
