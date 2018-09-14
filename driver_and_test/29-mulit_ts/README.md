@@ -1,9 +1,9 @@
 ###多点触摸屏
 
- 输入子系统：实现了open、read、write等操作
- input.c提供了fops等操作 ,根据次设备号找到对应的fops结构体 
-我们只需要实现硬件相关的代码 
-构造input_device,调用input_event上报数据 
+输入子系统：实现了open、read、write等操作<br>
+ input.c提供了fops等操作 ,根据次设备号找到对应的fops结构体 <br>
+我们只需要实现硬件相关的代码 <br>
+构造input_device,调用input_event上报数据 <br>
 ---
 ---
 #### 单点触摸和多点触摸有什么区别
