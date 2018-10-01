@@ -110,7 +110,18 @@
 |  |---2-first_drv
 |  |
 |  |---2-button-drv
-
+|  |
+|  |---3-button-irq
+|  |
+|  |---4-button-poll
+|  |
+|  |---5-button-fasync
+|  |
+|  |---6-button-atomic-sem-NONBLOCK
+|  |
+|  |---7-button-timer
+|  |
+|  |---8-button-input
 
 
 
