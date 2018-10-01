@@ -7,8 +7,6 @@
 #include <asm/uaccess.h>
 #include <asm/irq.h>
 #include <asm/io.h>
-#include <asm/arch/regs-gpio.h>
-#include <asm/hardware.h>
 
 #include <linux/proc_fs.h>
 #include <linux/poll.h>
@@ -16,6 +14,10 @@
 #include <linux/interrupt.h>
 #include <linux/input.h>
 #include <linux/platform_device.h>
+
+#include <mach/gpio.h>
+#include <linux/sched.h>
+
 
 static struct input_dev * button_dev;
 static struct timer_list button_timer;
@@ -27,10 +29,10 @@ struct pin_desc{
 };
 
 struct pin_desc pins_desc[4] = {
-	{IRQ_EINT0, "s2",S3C2410_GPF0,KEY_L},
-	{IRQ_EINT2, "s3",S3C2410_GPF2,KEY_S},
-	{IRQ_EINT11,"s4",S3C2410_GPG3,KEY_ENTER},
-	{IRQ_EINT19,"s5",S3C2410_GPG11,KEY_LEFTSHIFT},
+	{IRQ_EINT0, "s2",S3C2410_GPF(0),KEY_L},
+	{IRQ_EINT2, "s3",S3C2410_GPF(2),KEY_S},
+	{IRQ_EINT11,"s4",S3C2410_GPG(3),KEY_ENTER},
+	{IRQ_EINT19,"s5",S3C2410_GPG(11),KEY_LEFTSHIFT},
 };
 
 static struct pin_desc *irq_pd;
@@ -91,7 +93,7 @@ static int __init button_input_drv_init(void)
 	add_timer(&button_timer);
 	
 	for (i = 0;i < 4;i ++){
-		if(request_irq(pins_desc[i].irq,button_irq,IRQT_BOTHEDGE,pins_desc[i].name,&pins_desc[i])){
+		if(request_irq(pins_desc[i].irq,button_irq,IRQF_TRIGGER_FALLING|IRQF_TRIGGER_RISING,pins_desc[i].name,&pins_desc[i])){
 			printk("request irq : %d error \r\n",pins_desc[i].irq);
 		}
 	}

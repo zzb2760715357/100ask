@@ -2,7 +2,7 @@ CC = arm-linux-gcc
 
 KERN_DIR  = /home/zhuang/project/3-jz2440/systems/linux-3.4.2
 INSTALL_DIR = /work/nfs_root/fs_mini_mdev_new/mydriver
-DRIVER_NAME =  button_input_drv
+DRIVER_NAME =  lcd_drv_4.3
 #APP_NAME =  buttons_fasync_test
 
 all:

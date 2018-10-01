@@ -122,6 +122,21 @@
 |  |---7-button-timer
 |  |
 |  |---8-button-input
+|  |
+|  |---9-lcd
+|  |
+|  |---11-ts
+|  |
+|  |---12-usb-drv
+|  |
+|  |---13-ramblock
+|  |
+|  |---14-nand
+|  |
+|  |---15-norflash
+|  |
+|  |---17-virtual-net
+
 
 
 
