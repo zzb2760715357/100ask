@@ -80,7 +80,7 @@ static void __exit first_drv_exit(void)
 {
 	printk("--- %s --- \r\n",__func__);
 	unregister_chrdev(111,"first_drv");
-	device_destroy(firstdrv_class_dev,MKDEV(major,0));
+	device_destroy(firstdrv_class,MKDEV(major,0));
 	class_destroy(firstdrv_class);
 	iounmap(gpfcon);
 
