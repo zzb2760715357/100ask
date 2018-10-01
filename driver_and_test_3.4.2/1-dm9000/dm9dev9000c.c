@@ -84,10 +84,14 @@ V2.09 05/24/2007	-support ethtool and mii-tool
 #include <linux/mii.h>
 #include <linux/ethtool.h>
 #include <asm/uaccess.h>
+#include <linux/interrupt.h>
+
 
 #include <asm/io.h>
-#include <asm/hardware.h>
 #include <asm/irq.h>
+
+#include "dm9000.h"
+
 
 
 
@@ -177,6 +181,7 @@ if (dbug_now) printk(KERN_ERR "dmfe: %s %x\n", msg, vaule)
 #ifndef CONFIG_ARCH_MAINSTONE
 #pragma pack(push, 1)
 #endif
+
 
 typedef struct _RX_DESC
 {
@@ -347,7 +352,7 @@ struct net_device * __init dmfe_probe(void)
 	if(!dev)
 		return ERR_PTR(-ENOMEM);
 
-     	SET_MODULE_OWNER(dev);
+     	//SET_MODULE_OWNER(dev);
 	err = dmfe_probe1(dev);
 	if (err)
 		goto out;
@@ -367,6 +372,23 @@ out:
 #endif
 	return ERR_PTR(err);
 }
+
+static const struct net_device_ops dm9k_netdev_ops = {
+	.ndo_open		= dmfe_open,
+	.ndo_stop		= dmfe_stop,
+	.ndo_start_xmit		= dmfe_start_xmit,
+	.ndo_tx_timeout		= dmfe_timeout,
+	.ndo_get_stats                   = dmfe_get_stats,
+	.ndo_set_rx_mode	= dm9000_hash_table,
+	.ndo_do_ioctl		= dmfe_do_ioctl,
+	.ndo_change_mtu		= eth_change_mtu,
+//	.ndo_set_features	= dm9000_set_features,
+	.ndo_validate_addr	= eth_validate_addr,
+	.ndo_set_mac_address	= eth_mac_addr,
+#ifdef CONFIG_NET_POLL_CONTROLLER
+	.ndo_poll_controller	= dm9000_poll_controller,
+#endif
+};
 
 int __init dmfe_probe1(struct net_device *dev)
 {
@@ -398,8 +420,8 @@ int __init dmfe_probe1(struct net_device *dev)
 			dm9000_found = TRUE;
 
 			/* Allocated board information structure */
-			memset(dev->priv, 0, sizeof(struct board_info));
-			db = (board_info_t *)dev->priv;
+			db = netdev_priv(dev);
+			memset(db, 0, sizeof(struct board_info));
 			dmfe_dev    = dev;
 			db->io_addr  = iobase;
 			db->io_data = iobase + 4;   
@@ -410,16 +432,18 @@ int __init dmfe_probe1(struct net_device *dev)
 			//if((db->chip_revision!=0x1A) || ((chip_info&(1<<5))!=0) || ((chip_info&(1<<2))!=1)) return -ENODEV;
 						
 			/* driver system function */				
+			dev->netdev_ops	= &dm9k_netdev_ops;
+			
 			dev->base_addr 		= iobase;
 			dev->irq 		= irq;
-			dev->open 		= &dmfe_open;
-			dev->hard_start_xmit 	= &dmfe_start_xmit;
+			//dev->open 		= &dmfe_open;
+			//dev->hard_start_xmit 	= &dmfe_start_xmit;
 			dev->watchdog_timeo	= 5*HZ;	
-			dev->tx_timeout		= dmfe_timeout;
-			dev->stop 		= &dmfe_stop;
-			dev->get_stats 		= &dmfe_get_stats;
-			dev->set_multicast_list = &dm9000_hash_table;
-			dev->do_ioctl 		= &dmfe_do_ioctl;
+			//dev->tx_timeout		= dmfe_timeout;
+			//dev->stop 		= &dmfe_stop;
+			//dev->get_stats 		= &dmfe_get_stats;
+			//dev->set_multicast_list = &dm9000_hash_table;
+			//dev->do_ioctl 		= &dmfe_do_ioctl;
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(2,4,28)
 			dev->ethtool_ops = &dmfe_ethtool_ops;
 #endif
@@ -469,7 +493,7 @@ int __init dmfe_probe1(struct net_device *dev)
 */
 static int dmfe_open(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	u8 reg_nsr;
 	int i;
 	DMFE_DBUG(0, "dmfe_open", 0);
@@ -652,7 +676,7 @@ static void set_PHY_mode(board_info_t *db)
 */
 static void dmfe_init_dm9000(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	DMFE_DBUG(0, "dmfe_init_dm9000()", 0);
 
 	spin_lock_init(&db->lock);
@@ -735,7 +759,7 @@ static void dmfe_init_dm9000(struct net_device *dev)
 */
 static int dmfe_start_xmit(struct sk_buff *skb, struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	char * data_ptr;
 	int i, tmplen;
 	u16 MDWAH, MDWAL;
@@ -846,7 +870,7 @@ static int dmfe_start_xmit(struct sk_buff *skb, struct net_device *dev)
 */
 static int dmfe_stop(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	DMFE_DBUG(0, "dmfe_stop", 0);
 
 	/* deleted timer */
@@ -879,7 +903,7 @@ static int dmfe_stop(struct net_device *dev)
 static void dmfe_tx_done(unsigned long unused)
 {
 	struct net_device *dev = dmfe_dev;
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	int  nsr;
 
 	DMFE_DBUG(0, "dmfe_tx_done()", 0);
@@ -928,7 +952,7 @@ static void dmfe_interrupt(int irq, void *dev_id, struct pt_regs *regs)
 	DMFE_DBUG(0, "dmfe_interrupt()", 0);
 
 	/* A real interrupt coming */
-	db = (board_info_t *)dev->priv;
+	db =netdev_priv(dev);
 	spin_lock(&db->lock);
 
 	/* Save previous register address */
@@ -995,7 +1019,7 @@ static void dmfe_interrupt(int irq, void *dev_id, struct pt_regs *regs)
 */
 static struct net_device_stats * dmfe_get_stats(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	DMFE_DBUG(0, "dmfe_get_stats", 0);
 	return &db->stats;
 }
@@ -1030,7 +1054,7 @@ static int dmfe_ethtool_ioctl(struct net_device *dev, void *useraddr)
 */
 static int dmfe_do_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	#if LINUX_VERSION_CODE < KERNEL_VERSION(2,6,7) /* for kernel 2.6.7 */
     struct mii_ioctl_data *data=(struct mii_ioctl_data *)&ifr->ifr_data; 
 	#endif
@@ -1059,7 +1083,7 @@ static int dmfe_do_ioctl(struct net_device *dev, struct ifreq *ifr, int cmd)
 /* Our watchdog timed out. Called by the networking layer */
 static void dmfe_timeout(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	int i;
 	
 	DMFE_DBUG(0, "dmfe_TX_timeout()", 0);
@@ -1095,7 +1119,7 @@ static void dmfe_timeout(struct net_device *dev)
 
 static void dmfe_reset(struct net_device * dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db =netdev_priv(dev);
 	u8 reg_save;
 	int i;
 	/* Save previous register address */
@@ -1129,7 +1153,7 @@ static void dmfe_reset(struct net_device * dev)
 static void dmfe_timer(unsigned long data)
 {
 	struct net_device * dev = (struct net_device *)data;
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	DMFE_DBUG(0, "dmfe_timer()", 0);
 	
 	if (db->cont_rx_pkt_cnt>=CONT_RX_PKT_CNT)
@@ -1150,7 +1174,7 @@ static void dmfe_timer(unsigned long data)
 */
 static void dmfe_packet_receive(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	struct sk_buff *skb;
 	u8 rxbyte;
 	u16 i, GoodPacket, tmplen = 0, MDRAH, MDRAL;
@@ -1366,9 +1390,10 @@ static u16 read_srom_word(board_info_t *db, int offset)
 /*
   Set DM9000/DM9010 multicast address
 */
+#if 0
 static void dm9000_hash_table(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	struct dev_mc_list *mcptr = dev->mc_list;
 	int mc_cnt = dev->mc_count;
 	u32 hash_val;
@@ -1418,6 +1443,65 @@ static void dm9000_hash_table(struct net_device *dev)
 		iow(db, oft++, (hash_table[i] >> 8) & 0xff);
 	}
 }
+#else
+/*
+ *  Set DM9000 multicast address
+ */
+static void
+dm9000_hash_table_unlocked(struct net_device *dev)
+{
+	board_info_t *db = netdev_priv(dev);
+	struct netdev_hw_addr *ha;
+	int i, oft;
+	u32 hash_val;
+	u16 hash_table[4];
+	u8 rcr = RCR_DIS_LONG | RCR_DIS_CRC | RCR_RXEN;
+
+	//dm9000_dbg(db, 1, "entering %s\n", __func__);
+
+	for (i = 0, oft = DM9000_PAR; i < 6; i++, oft++)
+		iow(db, oft, dev->dev_addr[i]);
+
+	/* Clear Hash Table */
+	for (i = 0; i < 4; i++)
+		hash_table[i] = 0x0;
+
+	/* broadcast address */
+	hash_table[3] = 0x8000;
+
+	if (dev->flags & IFF_PROMISC)
+		rcr |= RCR_PRMSC;
+
+	if (dev->flags & IFF_ALLMULTI)
+		rcr |= RCR_ALL;
+
+	/* the multicast address in Hash Table : 64 bits */
+	netdev_for_each_mc_addr(ha, dev) {
+		hash_val = ether_crc_le(6, ha->addr) & 0x3f;
+		hash_table[hash_val / 16] |= (u16) 1 << (hash_val % 16);
+	}
+
+	/* Write the hash table to MAC MD table */
+	for (i = 0, oft = DM9000_MAR; i < 4; i++) {
+		iow(db, oft++, hash_table[i]);
+		iow(db, oft++, hash_table[i] >> 8);
+	}
+
+	iow(db, DM9000_RCR, rcr);
+}
+
+static void
+dm9000_hash_table(struct net_device *dev)
+{
+	board_info_t *db = netdev_priv(dev);
+	unsigned long flags;
+
+	spin_lock_irqsave(&db->lock, flags);
+	dm9000_hash_table_unlocked(dev);
+	spin_unlock_irqrestore(&db->lock, flags);
+}
+
+#endif
 
 /*
   Calculate the CRC valude of the Rx packet
@@ -1436,13 +1520,13 @@ static unsigned long cal_CRC(unsigned char * Data, unsigned int Len, u8 flag)
 
 static int mdio_read(struct net_device *dev, int phy_id, int location)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	return phy_read(db, location);
 }
 
 static void mdio_write(struct net_device *dev, int phy_id, int location, int val)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	phy_write(db, location, val);
 }
 
@@ -1508,7 +1592,7 @@ static void dmfe_get_drvinfo(struct net_device *dev,
 }
 static int dmfe_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	spin_lock_irq(&db->lock);
 	mii_ethtool_gset(&db->mii, cmd);
 	spin_unlock_irq(&db->lock);
@@ -1516,7 +1600,7 @@ static int dmfe_get_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 }
 static int dmfe_set_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	int rc;
 
 	spin_lock_irq(&db->lock);
@@ -1529,7 +1613,7 @@ static int dmfe_set_settings(struct net_device *dev, struct ethtool_cmd *cmd)
 */
 static u32 dmfe_get_link(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	return mii_link_ok(&db->mii);
 }
 
@@ -1538,7 +1622,7 @@ static u32 dmfe_get_link(struct net_device *dev)
 */
 static int dmfe_nway_reset(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	return mii_nway_restart(&db->mii);
 }
 /*
@@ -1546,7 +1630,7 @@ static int dmfe_nway_reset(struct net_device *dev)
 */
 static uint32_t dmfe_get_rx_csum(struct net_device *dev)
 {
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	return db->rx_csum;
 }
 /*
@@ -1562,7 +1646,7 @@ static uint32_t dmfe_get_tx_csum(struct net_device *dev)
 static int dmfe_set_rx_csum(struct net_device *dev, uint32_t data)
 {
 #ifdef CHECKSUM
-	board_info_t *db = (board_info_t *)dev->priv;
+	board_info_t *db = netdev_priv(dev);
 	db->rx_csum = data;
 
 	if(netif_running(dev)) {
@@ -1599,10 +1683,10 @@ static struct ethtool_ops dmfe_ethtool_ops = {
 	.set_settings		= dmfe_set_settings,
 	.get_link			= dmfe_get_link,
 	.nway_reset		= dmfe_nway_reset,
-	.get_rx_csum		= dmfe_get_rx_csum,
-	.set_rx_csum		= dmfe_set_rx_csum,
-	.get_tx_csum		= dmfe_get_tx_csum,
-	.set_tx_csum		= dmfe_set_tx_csum,
+	//.get_rx_csum		= dmfe_get_rx_csum,
+	//.set_rx_csum		= dmfe_set_rx_csum,
+	//.get_tx_csum		= dmfe_get_tx_csum,
+	//.set_tx_csum		= dmfe_set_tx_csum,
 };
 #endif
 
@@ -1644,7 +1728,8 @@ int __init dm9000c_init(void)
 	val |= (1<<16);
 	*bwscon = val;
 
-	*bankcon4 = (1<<8)|(1<<6);
+	//*bankcon4 = (1<<8)|(1<<6);
+	*bankcon4 = (7<<8)|(1<<6);
 
 	iounmap(bankcon4);
 	iounmap(bwscon);
