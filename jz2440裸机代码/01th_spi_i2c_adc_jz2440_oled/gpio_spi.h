@@ -4,6 +4,7 @@
 
 void SPIInit(void);
 void SPISendByte(unsigned char val);
+unsigned char SPIRecvByte(void);
 
 #endif
 

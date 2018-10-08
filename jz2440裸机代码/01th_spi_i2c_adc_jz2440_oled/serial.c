@@ -50,6 +50,27 @@ unsigned char getc(void)
 }
 
 /*
+ * 接收字符，若有数据直接返回，否则等待规定的时间
+ * 输入参数：
+ *     timeout: 等待的最大循环次数，0表示不等待
+ * 返回值: 
+ *    0     : 无数据，超时退出
+ *    其他值：串口接收到的数据
+ */
+unsigned char awaitkey(unsigned long timeout)
+{
+	while (!(UTRSTAT0 & RXD0READY))
+    {
+        if (timeout > 0)
+            timeout--;
+        else
+            return 0;   // 超时，返回0
+	}
+
+    return URXH0;       // 返回接收到的串口数据
+}
+
+/*
  * 判断一个字符是否数字
  */
 int isDigit(unsigned char c)

@@ -36,6 +36,14 @@ static void SPI_Set_DO(char val)
         GPGDAT &= ~(1<<6);
 }
 
+static char SPI_Get_DI(void)
+{
+    if (GPGDAT & (1<<5))
+        return 1;
+    else 
+        return 0;
+}
+
 void SPISendByte(unsigned char val)
 {
     int i;
@@ -48,6 +56,22 @@ void SPISendByte(unsigned char val)
     }
     
 }
+
+unsigned char SPIRecvByte(void)
+{
+    int i;
+    unsigned char val = 0;
+    for (i = 0; i < 8; i++)
+    {
+        val <<= 1;
+        SPI_Set_CLK(0);
+        if (SPI_Get_DI())
+            val |= 1;
+        SPI_Set_CLK(1);
+    }
+    return val;    
+}
+
 
 void SPIInit(void)
 {

@@ -147,3 +147,11 @@ void OLEDPrint(int page, int col, char *str)
     }
 }
 
+void OLEDClearPage(int page)
+{
+    int i;
+    OLEDSetPos(page, 0);
+    for (i = 0; i < 128; i++)
+        OLEDWriteDat(0);    
+}
+

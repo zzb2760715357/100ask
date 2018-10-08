@@ -11,10 +11,12 @@ CPPFLAGS   	:= -nostdinc -I$(INCLUDEDIR)
 
 export 	CC LD OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS AR
 
-objs := head.o init.o nand.o interrupt.o i2c.o at24cxx.o serial.o main.o lib/libc.a
+LDFLASG := -L $(shell dirname `$(CC) $(CFLAGS) -print-libgcc-file-name`) -lgcc
+
+objs := head.o init.o nand.o interrupt.o i2c.o gpio_spi.o oled.o spi_flash.o adc_ts.o at24cxx.o serial.o main.o lib/libc.a
 
 i2c.bin: $(objs)
-	${LD} -Ti2c.lds -o i2c_elf $^
+	${LD} $(LDFLASG) -Ti2c.lds -o i2c_elf $^ 
 	${OBJCOPY} -O binary -S i2c_elf $@
 	${OBJDUMP} -D -m arm i2c_elf > i2c.dis
 
