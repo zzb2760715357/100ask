@@ -1,6 +1,6 @@
 
 #include "oledfont.h"
-#include "gpio_spi.h"
+#include "s3c2440_spi.h"
 #include "s3c24xx.h"
 
 static void OLED_Set_DC(char val)

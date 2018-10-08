@@ -90,6 +90,21 @@
 #define	TCMPB0		(*(volatile unsigned long *)0x51000010)
 #define	TCNTO0		(*(volatile unsigned long *)0x51000014)
 
+/* SPI */
+#define	SPCON0		(*(volatile unsigned long *)0x59000000)
+#define	SPSTA0		(*(volatile unsigned long *)0x59000004)
+#define	SPPIN0		(*(volatile unsigned long *)0x59000008)
+#define	SPPRE0		(*(volatile unsigned long *)0x5900000C)
+#define	SPTDAT0	(*(volatile unsigned char *)0x59000010)
+#define	SPRDAT0	(*(volatile unsigned char *)0x59000014)
+
+#define	SPCON1		(*(volatile unsigned long *)0x59000020)
+#define	SPSTA1		(*(volatile unsigned long *)0x59000024)
+#define	SPPIN1		(*(volatile unsigned long *)0x59000028)
+#define	SPPRE1		(*(volatile unsigned long *)0x5900002C)
+#define	SPTDAT1	(*(volatile unsigned char *)0x59000030)
+#define	SPRDAT1 	(*(volatile unsigned char *)0x59000034)
+
 /* I2C registers */
 #define IICCON  	(*(volatile unsigned *)0x54000000) // IIC control
 #define IICSTAT 	(*(volatile unsigned *)0x54000004) // IIC status

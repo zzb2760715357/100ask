@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "serial.h"
 #include "i2c.h"
-#include "gpio_spi.h"
+#include "s3c2440_spi.h"
 #include "spi_flash.h"
 #include "oled.h"
 
