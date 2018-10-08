@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include "serial.h"
 #include "i2c.h"
-#include "m41t11.h"
+#include "gpio_spi.h"
+#include "oled.h"
+
+unsigned char at24cxx_read(unsigned char address);
+void at24cxx_write(unsigned char address, unsigned char data);
 
 
 int main()
@@ -11,17 +15,21 @@ int main()
     int i;
 	int address;
 	int data;
-    struct rtc_time dt;
     
     uart0_init();   // 波特率115200，8N1(8个数据位，无校验位，1个停止位)
+
+    SPIInit();
+    OLEDInit();
+    OLEDPrint(0,0,"www.100ask.net, 100ask.taobao.com");
+    
     
     i2c_init();
     
     while (1)
     {
-        printf("\r\n##### AT24C02 Menu #####\r\n");
-        printf("[W] Write the AT24C02\n\r");
-        printf("[R] Read the AT24C02\n\r");
+        printf("\r\n##### AT24CXX Menu #####\r\n");
+        printf("[R] Read AT24CXX\n\r");
+        printf("[W] Write AT24CXX\n\r");
         printf("Enter your selection: ");
 
         c = getc();
@@ -31,7 +39,7 @@ int main()
             case 'r':
             case 'R':
             {
-                printf("Enter addres: ");
+                printf("Enter address: ");
                 i = 0;
                 do
                 {
@@ -48,18 +56,17 @@ int main()
                 }
 
                 sscanf(str, "%d", &address);
-				
-				printf("\r\nRead Address = %d\r\n",address);
-				//data = at24cxx_read(address);
-				printf("data = %d\r\n",data);
-					
+				printf("\r\nread address = %d\r\n", address);
+				data = at24cxx_read(address);
+				printf("data = %d\r\n", data);
+                    
                 break;
             }
             
             case 'w':
             case 'W':
             {
-				printf("Enter addres: ");
+                printf("Enter address: ");
                 i = 0;
                 do
                 {
@@ -77,8 +84,9 @@ int main()
                 }
 
                 sscanf(str, "%d", &address);
+				//printf("get str %s\r\n", str);
 
-				printf("Enter data: ");
+                printf("Enter data: ");
                 i = 0;
                 do
                 {
@@ -97,10 +105,12 @@ int main()
                 }
 
                 sscanf(str, "%d", &data);
+				//address = 12;
+				//data = 13;
+				printf("write address %d with data %d\r\n", address, data);
+				
+				at24cxx_write(address, data);
 
-				printf("Write address %d with data %d\r\n",address,data);
-				//at24cxx_write(address,data);
-               
                 break;
             }
         }
