@@ -37,6 +37,8 @@
 |   |---debug_with_jtag     使用jtag进行调试
 |   |
 |   |---debug_with_gdb_eclipse   使用gdb或eclipse进行源码级别的调试
+|   |
+|   |---01th_spi_i2c_adc_jz2440_oled           裸机oled,sdram demo
 |
 |
 |
