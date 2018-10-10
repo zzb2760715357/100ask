@@ -147,6 +147,8 @@
 |  |---001_led_drv_traditional                   传统的点亮LED方法
 |  |
 |  |---002_led_dev_bus_drv                       dev bus dri bring up led
+|  |
+|  |---003_led_devicetree                        devicetree bring up led
 
 
 
