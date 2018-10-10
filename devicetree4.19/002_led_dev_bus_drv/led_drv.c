@@ -30,7 +30,9 @@
 #define S3C2440_GPI(n)  (8<<16 | n)
 #define S3C2440_GPJ(n)  (9<<16 | n)
 
-static int led_pin = S3C2440_GPF(5);
+//static int led_pin = S3C2440_GPF(5);
+static int led_pin;
+
 static volatile unsigned int *gpio_con;
 static volatile unsigned int *gpio_dat;
 
@@ -106,21 +108,58 @@ static const struct file_operations myled_ops = {
 	.release = led_release,
 };
 
-static int __init myled_init(void)
+static int led_probe(struct platform_device *pdev)
 {
-	major = register_chrdev(0,"myled", &myled_ops);
+        struct resource *res;
+
+        printk("--- %s ---\r\n",__func__);
+
+        //??¨¨???¨¬¡§¡Á¨º?¡ä
+        res = platform_get_resource(pdev,IORESOURCE_MEM,0);
+        led_pin =res->start;
+
+        major = register_chrdev(0,"myled", &myled_ops);
 
 	led_class = class_create(THIS_MODULE, "myled");
 	device_create(led_class, NULL, MKDEV(major,0), NULL, "led");
+
+    
+
+        return 0;
+}
+
+
+static int led_remove(struct platform_device *pdev)
+{
+        printk("--- %s ---\r\n",__func__);
+
+       unregister_chrdev(major, "myled");
+       device_destroy(led_class,  MKDEV(major, 0));
+       class_destroy(led_class);
+
+        return 0;
+}
+
+static struct platform_driver led_drv = {
+        .probe  = led_probe,
+        .remove = led_remove,
+        .driver = {
+                .name = "myled",
+        },
+};
+
+static int __init myled_init(void)
+{
+	
+	platform_driver_register(&led_drv);
 
 	return 0;
 }
 
 static void __exit myled_exit(void)
 {
-	unregister_chrdev(major, "myled");
-	device_destroy(led_class,  MKDEV(major, 0));
-	class_destroy(led_class);
+	
+	platform_driver_unregister(&led_drv);
 		
 }
 

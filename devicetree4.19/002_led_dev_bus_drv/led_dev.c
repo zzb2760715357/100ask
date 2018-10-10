@@ -15,6 +15,16 @@
 #include <linux/input.h>
 #include <linux/platform_device.h>
 
+#define S3C2440_GPA(n)  (0<<16 | n)
+#define S3C2440_GPB(n)  (1<<16 | n)
+#define S3C2440_GPC(n)  (2<<16 | n)
+#define S3C2440_GPD(n)  (3<<16 | n)
+#define S3C2440_GPE(n)  (4<<16 | n)
+#define S3C2440_GPF(n)  (5<<16 | n)
+#define S3C2440_GPG(n)  (6<<16 | n)
+#define S3C2440_GPH(n)  (7<<16 | n)
+#define S3C2440_GPI(n)  (8<<16 | n)
+#define S3C2440_GPJ(n)  (9<<16 | n)
 
 static void led_release(struct device * dev)
 {
@@ -23,8 +33,8 @@ static void led_release(struct device * dev)
 
 static struct resource	led_resource[] ={
 	[0] = {
-		.start = 0x56000050,
-		.end = 0x56000050 + 8 -1,
+		.start = S3C2440_GPF(5),
+		.end =S3C2440_GPF(5),
 		.flags = IORESOURCE_MEM,
 	},
 	[1] = {
