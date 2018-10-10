@@ -5,6 +5,7 @@ INSTALL_DIR = /work/nfs_root/fs_mini_mdev_new/mydriver
 #DRIVER_NAME =  spi_info_jz2440
 DRIVER_NAME2 = spi_oled_drv
 DRIVER_NAME3 = spi_flash_drv
+DRIVER_NAME4 = spi_2440
 APP_NAME =  oled_test
 
 all:
@@ -23,3 +24,4 @@ install:
 #obj-m += $(DRIVER_NAME).o
 obj-m += $(DRIVER_NAME2).o
 obj-m += $(DRIVER_NAME3).o
+obj-m += $(DRIVER_NAME4).o

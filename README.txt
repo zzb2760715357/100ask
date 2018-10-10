@@ -139,7 +139,7 @@
 |  |
 |  |---17-virtual-net
 |  |
-|  |---18-spi-oled                   SPI接口的OLED测试程序
+|  |---18-spi-oled                   SPI接口的OLED,flash测试程序
 
 
 
