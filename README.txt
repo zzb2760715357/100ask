@@ -159,6 +159,8 @@
 |  |---01th_oop                                  面向对象的基本编程
 |  |
 |  |---02th_accesscontrol                        访问控制以及this成员的使用
+|  |
+|  |---03th_ProgramStructure                     在类的外部定义函数,拆分函数,main.cpp只关心怎么调用、不同的类出现同名字的函数使用namespace、cout
 
 
 
