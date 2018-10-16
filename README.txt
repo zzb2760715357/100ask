@@ -175,6 +175,8 @@
 |  |---09th_operator                             重载操作运算+、++p、p++、<<、=、
 |  |
 |  |---10th_inheritance                          继承、public、private、protect的访问控制、using改变子类继承父类的变量
+|  |
+|  |---11th_multi_inheritance                    多重继承、虚拟继承
 
 
 
