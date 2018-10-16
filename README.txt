@@ -179,6 +179,8 @@
 |  |---11th_multi_inheritance                    多重继承、虚拟继承
 |  |
 |  |---12th_constructor_2                        多重继承构造顺序、
+|  |
+|  |---13th_Polymorphism                         多态、虚函数、析构函数一般为虚函数、
 
 
 
