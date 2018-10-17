@@ -1,0 +1,39 @@
+#include "Englishman.h"
+
+void Englishman::eating(void)
+{
+	cout << "use knife to eat,English" << endl;
+}
+void Englishman::wearing(void)
+{
+	cout << "Englishman wearing" << endl;
+}
+void Englishman::driving(void)
+{
+	cout << "Englishman driving" << endl;
+}
+
+Englishman::~Englishman()
+{
+	cout << "~Englishman()" << endl;
+}
+Englishman::Englishman(){}
+Englishman::Englishman(char *name,int age,char *address)
+{
+	setName(name);
+	this->age = age;
+	memset(this->address,0,100);
+	strcpy(this->address,address);
+
+}
+
+Human& CreateEnglishman(char *name,int age,char *address)
+{
+	return *(new Englishman(name,age,address));
+}
+
+
+
+
+
+

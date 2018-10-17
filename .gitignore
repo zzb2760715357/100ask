@@ -1,3 +1,4 @@
+*.so
 .*.o.d
 *.order
 *libc.a
