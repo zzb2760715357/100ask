@@ -193,6 +193,8 @@
 |  |---18th_exception                            捕获异常
 |  |
 |  |---19th_smartpointer                         智能指针
+|  |
+|  |---20th_light_smartpointer                   轻量级智能指针保证count变量线程安全
 
 
 
