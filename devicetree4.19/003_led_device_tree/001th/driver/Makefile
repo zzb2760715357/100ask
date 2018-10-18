@@ -4,7 +4,7 @@ APPCC = /usr/local/arm/4.3.2/bin/arm-linux-gcc
 
 KERN_DIR  = /home/zhuang/project/3-jz2440/systems/source_and_images/kernel/linux-4.19-rc3
 DRIVER_NAME = led_drv
-APP_NAME = led_test
+APP_NAME = ledtest
 
 all:
 	make -C $(KERN_DIR) M=`pwd` modules

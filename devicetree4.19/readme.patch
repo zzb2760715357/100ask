@@ -1,0 +1,1 @@
+mount -t nfs -o nolock,vers=2 192.168.1.100:/work/nfs_root/fs_mini_mdev_new  /mnt
