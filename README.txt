@@ -199,6 +199,8 @@
 |  |---21th_strongpointer_weakpointer            弱指针的使用
 |  |
 |  |---22th_singleton                            单例模式
+|  |
+|  |---23th_bridge_mode                          桥接模式
 
 
 
