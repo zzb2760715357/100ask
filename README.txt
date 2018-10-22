@@ -201,6 +201,14 @@
 |  |---22th_singleton                            单例模式
 |  |
 |  |---23th_bridge_mode                          桥接模式
+|
+|
+|
+|
+|
+|---digital-Frame                                数码相框学习笔记
+|  |
+|  |---1-char-code                               字符编码
 
 
 
