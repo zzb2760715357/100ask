@@ -209,6 +209,10 @@
 |---digital-Frame                                数码相框学习笔记
 |  |
 |  |---1-char-code                               字符编码
+|  |
+|  |---2-dot_font                                lcd显示字符点阵
+|  |
+|  |---3-freetype                                矢量字体freetype编程显示
 
 
 
