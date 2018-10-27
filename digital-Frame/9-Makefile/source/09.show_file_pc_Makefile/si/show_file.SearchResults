@@ -1,0 +1,82 @@
+---- FontInit Matches (7 in 5 files) ----
+Ascii.c (fonts):	.FontInit      = ASCIIFontInit,
+Draw.c (draw):			iError = ptFontOpr->FontInit(NULL, dwFontSize);
+Draw.c (draw):			ptFontOpr->FontInit(pcFileHZK, dwFontSize);
+Draw.c (draw):			iError = ptFontOpr->FontInit(pcFileFreetype, dwFontSize);
+Fonts_manager.h (include):	int (*FontInit)(char *pcFontFile, unsigned int dwFontSize);
+Freetype.c (fonts):	.FontInit      = FreeTypeFontInit,
+Gbk.c (fonts):	.FontInit      = GBKFontInit,
+---- RegisterDispOpr Matches (4 in 3 files) ----
+Disp_manager.c (display):int RegisterDispOpr(PT_DispOpr ptDispOpr)
+Disp_manager.c (display):		DBG_PRINTF("can't RegisterDispOpr, it is full\n");
+Disp_manager.h (include):int RegisterDispOpr(PT_DispOpr *ptDispOpr);
+Fb.c (display):	return RegisterDispOpr(&g_tFBOpr);
+---- don't support this code Matches (2 in 2 files) ----
+Ascii.c (fonts):		DBG_PRINTF("don't support this code : 0x%x\n", dwCode);
+Gbk.c (fonts):		DBG_PRINTF("don't support this code : 0x%x\n", dwCode);
+---- can't mmap Matches (4 in 3 files) ----
+Draw.c (draw):		DBG_PRINTF("can't mmap for text file\n");
+Fb.c (display):		DBG_PRINTF("can't mmap\n");
+Fb.c (display):		DBG_PRINTF("can't mmap\n");
+Gbk.c (fonts):		DBG_PRINTF("can't mmap for hzk16\n");
+---- can't mmap Matches (4 in 3 files) ----
+Draw.c (draw):		DBG_PRINTF("can't mmap for text file\n");
+Fb.c (display):		DBG_PRINTF("can't mmap\n");
+Fb.c (display):		DBG_PRINTF("can't mmap\n");
+Gbk.c (fonts):		DBG_PRINTF("can't mmap for hzk16\n");
+---- g_iFontOprUsing Matches (3 in 1 files) ----
+Fonts_manager.c (fonts):static int g_iFontOprUsing;
+Fonts_manager.c (fonts):	g_iFontOprUsing = -1;
+Fonts_manager.c (fonts):			g_iFontOprUsing = i;
+---- SelectFontOpr Matches (3 in 3 files) ----
+Encoding_manager.h (include):int SelectFontOpr(char *pcName);
+Fonts_manager.c (fonts):int SelectFontOpr(char *pcName)
+Fonts_manager.h (include):int SelectFontOpr(char *name);
+---- SelectDispOpr Matches (2 in 2 files) ----
+Disp_manager.c (display):int SelectDispOpr(char *pcName)
+Disp_manager.h (include):int SelectDispOpr(char *pcName);
+---- GetDispOpr Matches (3 in 3 files) ----
+Disp_manager.c (display):PT_DispOpr GetDispOpr(char *pcName)
+Draw.c (draw):	g_ptDispOpr = GetDispOpr(pcName);
+Encoding_manager.h (include):PT_DispOpr GetDispOpr(char *pcName);
+---- SelectEncodingOpr Matches (1 in 1 files) ----
+Encoding_manager.c (encoding):int SelectEncodingOpr(char *name)
+---- aptFontOprSupported Matches (14 in 6 files) ----
+Ascii.c (encoding):	g_tAsciiEncodingOpr.aptFontOprSupported[0] = GetFontOpr("ascii");
+Ascii.c (encoding):	g_tAsciiEncodingOpr.aptFontOprSupported[1] = GetFontOpr("gbk");
+Ascii.c (encoding):	g_tAsciiEncodingOpr.aptFontOprSupported[2] = NULL;	
+Draw.c (draw):	ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i];
+Draw.c (draw):		ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i];
+Draw.c (draw):		ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i++];
+Draw.c (draw):			ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i++];
+Encoding_manager.h (include):	PT_FontOpr aptFontOprSupported[4];
+Utf-16be.c (encoding):	g_tUtf16beEncodingOpr.aptFontOprSupported[0] = GetFontOpr("freetype");
+Utf-16be.c (encoding):	g_tUtf16beEncodingOpr.aptFontOprSupported[1] = NULL;	
+Utf-16le.c (encoding):	g_tUtf16leEncodingOpr.aptFontOprSupported[0] = GetFontOpr("freetype");
+Utf-16le.c (encoding):	g_tUtf16leEncodingOpr.aptFontOprSupported[1] = NULL;	
+Utf-8.c (encoding):	g_tUtf8EncodingOpr.aptFontOprSupported[0] = GetFontOpr("freetype");
+Utf-8.c (encoding):	g_tUtf8EncodingOpr.aptFontOprSupported[1] = NULL;	
+---- aptFontOprSupported Matches (4 in 1 files) ----
+Draw.c (draw):	ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i];
+Draw.c (draw):		ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i];
+Draw.c (draw):		ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i++];
+Draw.c (draw):			ptFontOpr = g_ptEncodingOprForFile->aptFontOprSupported[i++];
+---- kfree Matches (1 in 1 files) ----
+Encoding_manager.c (encoding):				kfree(ptTmp);
+---- CleanScreen Matches (3 in 3 files) ----
+Disp_manager.h (include):	int (*CleanScreen)(unsigned int dwBackColor);
+Draw.c (draw):					g_ptDispOpr->CleanScreen();
+Fb.c (display):	.CleanScreen = FBCleanScreen,
+---- SetTextDetail Matches (4 in 3 files) ----
+Draw.c (draw):int SetTextDetail(char *pcHZKFile, char *pcFileFreetype, unsigned int dwFontSize)
+Draw.h (include):int SetTextDetail(char *pcHZKFile, char *pcFileFreetype, unsigned int dwFontSize);
+Main.c:	iError = SetTextDetail(acHzkFile, acFreetypeFile, dwFontSize);
+Main.c:		printf("SetTextDetail error!\n");
+---- g_pucLcdFirstPosAtFile Matches (3 in 1 files) ----
+Draw.c (draw):static unsigned char *g_pucLcdFirstPosAtFile;
+Draw.c (draw):		g_pucLcdFirstPosAtFile = g_pucTextFileMem + g_ptEncodingOprForFile->iHeadLen;
+Draw.c (draw):		pucTextFileMemCurPos = g_pucLcdFirstPosAtFile;
+---- FBInit Matches (3 in 3 files) ----
+Disp_manager.c (display):	iError = FBInit();
+Disp_manager.h (include):int FBInit(void);
+Fb.c (display):int FBInit(void)
