@@ -18,3 +18,4 @@ Module.symvers
 *.c.swp
 *.swp
 *.out
+*.class
