@@ -239,6 +239,8 @@
 |  |---05th_param                                Java函数传参
 |  |
 |  |---06th_oop                                  Java面向对象的引入
+|  |
+|  |---07th_enc                                  Java的封装性例子
 |
 
 
