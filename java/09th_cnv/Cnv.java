@@ -13,7 +13,7 @@ class Son extends Father{
 }
 
 class Daughter extends Father{
-	public void printInfo() {System.out.println("This is Father");}
+	public void printInfo() {System.out.println("This is Dauhter");}
 }
 
 

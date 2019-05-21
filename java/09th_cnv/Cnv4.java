@@ -17,10 +17,20 @@ class Daughter extends Father{
 }
 
 
-public class Cnv2 {
+public class Cnv4 {
 	public static void main (String args[]) {
-		Father f = new Son();
-		Son son = (Son)f;
+		Father f = new Father();
+		Son s = new Son();
+		Daughter d = new Daughter();
+
+		print(f);
+		print(s);
+		print(d);
+	}
+	
+
+	public static void print(Father f){
+		f.printInfo();
 	}
 }
 
