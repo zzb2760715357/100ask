@@ -241,6 +241,8 @@
 |  |---06th_oop                                  Java面向对象的引入
 |  |
 |  |---07th_enc                                  Java的封装性例子
+|  |
+|  |---08th_extends                              Java的继承性例子
 |
 
 
