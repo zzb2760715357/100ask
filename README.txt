@@ -245,6 +245,8 @@
 |  |---08th_extends                              Java的继承性例子
 |  |
 |  |---09th_cnv                                  Java的多态性例子
+|  |
+|  |---10th_execption                            Java的异常
 |
 
 
