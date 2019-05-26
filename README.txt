@@ -257,6 +257,8 @@
 |  |---12th_access_control                       Java的访问控制权限
 |  |   |
 |  |   |---01th                                  public class可以被外包访问,class只能在本包中访问
+|  |   |
+|  |   |---02th                                  定义在同一个包中，不需要加public也可以访问
 |
 
 
