@@ -260,9 +260,9 @@
 |  |   |
 |  |   |---02th                                  定义在同一个包中，不需要加public也可以访问
 |  |   |
-|  |   |---03th                                  
+|  |   |---03th                                  Java的Private关键字
 |  |   | 
-|  |   |---04th
+|  |   |---04th                                  Java的Protect关键字
 |  |   |
 |  |   |---05th                                  Java的Protect关键字
 |
