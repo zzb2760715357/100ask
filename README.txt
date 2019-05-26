@@ -249,10 +249,14 @@
 |  |---10th_execption                            Java的异常
 |  |
 |  |---11th_package                               
-|      |
-|      |---01th                                  package的使用
-|      |
-|      |---02th                                  package的使用
+|  |   |
+|  |   |---01th                                  package的使用
+|  |   |
+|  |   |---02th                                  package的使用
+|  |
+|  |---12th_access_control                       Java的访问控制权限
+|  |   |
+|  |   |---01th                                  public class可以被外包访问,class只能在本包中访问
 |
 
 
