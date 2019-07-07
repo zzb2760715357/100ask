@@ -271,6 +271,8 @@
 |  |   |---01                                    JNI的demo
 |  |   | 
 |  |   |---02                                    JNI传递int变量,并且返回值也是int
+|  |   |
+|  |   |---03                                    JNI传递string变量，并且返回值也是string
 |  |   
 |  |---14th_Inter
 |  |   |
