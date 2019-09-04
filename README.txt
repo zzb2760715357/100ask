@@ -151,6 +151,8 @@
 |  |---003_led_devicetree                        devicetree bring up led
 |  |
 |  |---004_device_tree_phandle_override          dts,dtsi文件的使用，以及在dts文件中覆盖dtsi中定义的一些属性
+|  |
+|  |---005_device_tree_phandle_label             label标签的使用
 |
 |
 |
