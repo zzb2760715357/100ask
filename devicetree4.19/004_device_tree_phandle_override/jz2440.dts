@@ -1,0 +1,19 @@
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * SAMSUNG SMDK2440 board device tree source
+ *
+ * Copyright (c) 2018 weidongshan@qq.com
+ * dtc -I dtb -O dts -o jz2440.dts jz2440.dtb
+ */
+ 
+
+/dts-v1/;
+
+#include "jz2440.dtsi"
+
+/{
+    led {
+		compatible = "jz2440_led";
+		pin = <S3C2410_GPF(6)>;
+	};
+};
